@@ -5,7 +5,6 @@
   "homepage": "https://github.com/RaptorLab/veloci",
   "keywords": ["framework","mvp", "fast", "prototyping"],
   "type": "library",
-  "version": "0.1.0",
   "authors": [
     {
       "name": "Christian Nastasi",
