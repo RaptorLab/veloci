@@ -14,7 +14,6 @@ use Veloci\User\Factory\UserSessionFactoryDefault;
 use Veloci\User\Factory\UserTokenFactoryDefault;
 use Veloci\User\Manager\AuthManager;
 use Veloci\User\Manager\UserManagerDefault;
-use Veloci\User\Manager\UserSessionManagerDefault;
 use Veloci\User\Repository\InMemoryUserRepository;
 use Veloci\User\Repository\InMemoryUserSessionRepository;
 use Veloci\User\Repository\UserRepository;
@@ -38,11 +37,6 @@ class UserContext implements Context, SnippetAcceptingContext
      * @var UserRepository
      */
     private $userRepository;
-
-    /**
-     * @var mixed
-     */
-    private $sessionToken;
 
     /**
      * @var UserSessionRepository
