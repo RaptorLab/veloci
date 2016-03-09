@@ -1,0 +1,87 @@
+<?php
+
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+namespace Veloci\Core\Repository;
+
+use Closure;
+use Doctrine\Common\Collections\ArrayCollection;
+use Veloci\Core\Model\EntityModel;
+
+/**
+ * Description of InMemoryRepository
+ *
+ * @author christian
+ */
+abstract class InMemoryRepository implements EntityRepository
+{
+
+    /**
+     *
+     * @var ArrayCollection<EntityModel>
+     */
+    private $repository;
+
+    public function __construct()
+    {
+        $this->repository = new ArrayCollection();
+    }
+
+    public function get($id)
+    {
+        return $this->repository->get($id);
+    }
+
+    /**
+     *
+     * @param EntityModel $model
+     */
+    public function delete(EntityModel $model)
+    {
+        if ($this->accept($model)) {
+            $this->repository->remove($model->getId());
+        }
+    }
+
+    /**
+     *
+     * @return EntityModel[]
+     */
+    public function getAll()
+    {
+        return $this->repository->toArray();
+    }
+
+    /**
+     *
+     * @param EntityModel $model
+     *
+     * @throws \RuntimeException
+     */
+    public function save(EntityModel $model)
+    {
+        if ($this->accept($model)) {
+            $this->repository->set($model->getId(), $model);
+        } else {
+            throw new \RuntimeException ('Invalid model');
+        }
+    }
+
+    public function exists(EntityModel $model)
+    {
+        return $this->repository->containsKey($model->getId());
+    }
+
+    /**
+     * @param Closure $closure
+     * @return \Doctrine\Common\Collections\Collection|static
+     */
+    protected function getBy(Closure $closure)
+    {
+        return $this->repository->filter($closure);
+    }
+}
