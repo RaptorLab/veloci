@@ -1,12 +1,17 @@
 {
   "name": "raptorlab/veloci",
   "description": "Description of project VelociFramework.",
+  "license": "Apache-2.0",
   "authors": [
     {
       "name": "Christian Nastasi",
-      "email": "christian.nastasi@gmail.com"
+      "email": "christian.nastasi@raptorlab.co",
+      "role": "Lead Developer"
     }
   ],
+  "support": {
+    "email": "info@raptorlab.co"
+  },
   "require-dev": {
     "doctrine/collections": "^1.3",
     "phpunit/phpunit": "~5.2",
