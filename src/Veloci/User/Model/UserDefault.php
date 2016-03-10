@@ -5,50 +5,38 @@ namespace Veloci\User\Model;
 use DateTime;
 
 use Veloci\Core\Model\DateableModel;
+use Veloci\Core\Model\RichEntityModel;
 use Veloci\User\User;
 use Veloci\User\UserRole;
 
-class UserDefault implements User
+class UserDefault extends RichEntityModel implements User
 {
     use DateableModel;
 
     /**
-     * @var mixed
-     */
-    private $id;
-
-
-    /**
      * @var bool
      */
-    private $enabled;
+    protected $enabled = false;
+
+    /**
+     * @var UserRole
+     */
+    protected $role;
 
     /**
      * UserModelDefault constructor.
      * @param $id
      */
-    public function __construct($id)
+    public function __construct()
     {
-        $this->id = $id ?: 0;
-
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
-
-        $this->enabled = false;
-    }
-
-    /**
-     * @return mixed
-     */
-    public function getId()
-    {
-        return $this->id;
     }
 
     /**
      * @return bool
      */
-    public function isEnabled()
+    public function isEnabled():bool
     {
         return $this->enabled;
     }
@@ -57,9 +45,14 @@ class UserDefault implements User
     /**
      * @return UserRole
      */
-    public function getRole()
+    public function getRole():UserRole
     {
-        return new UserRoleDefault();
+        return $this->role;
+    }
+
+    public function setRole(UserRole $role)
+    {
+        $this->role = $role;
     }
 
     public function enable()

@@ -17,22 +17,22 @@ trait DateableModel
     /**
      * @var DateTime
      */
-    private $createdAt;
+    protected $createdAt;
 
     /**
      * @var DateTime
      */
-    private $updatedAt;
+    protected $updatedAt;
 
     /**
      * @var DateTime
      */
-    private $deletedAt;
+    protected $deletedAt;
 
     /**
      * @return DateTime
      */
-    public function getCreatedAt()
+    public function getCreatedAt():DateTime
     {
         return $this->createdAt;
     }
@@ -40,7 +40,7 @@ trait DateableModel
     /**
      * @return DateTime
      */
-    public function getUpdatedAt()
+    public function getUpdatedAt():DateTime
     {
         return $this->updatedAt;
     }
@@ -48,7 +48,7 @@ trait DateableModel
     /**
      * @return DateTime
      */
-    public function getDeletedAt()
+    public function getDeletedAt():DateTime
     {
         return $this->deletedAt;
     }
@@ -63,7 +63,7 @@ trait DateableModel
         $this->deletedAt = new DateTime();
     }
 
-    public function isDeleted()
+    public function isDeleted():bool
     {
         return $this->deletedAt !== null;
     }

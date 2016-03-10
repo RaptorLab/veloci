@@ -13,33 +13,33 @@ use DateTime;
  *
  * @author christian
  */
-interface EntityModel
+interface EntityModel extends Model
 {
 
     /**
      * @return mixed
      */
-    public function getId();
+    public function getId():mixed;
 
     /**
      * @return DateTime
      */
-    public function getCreatedAt();
+    public function getCreatedAt():DateTime;
 
     /**
      * @return DateTime
      */
-    public function getUpdatedAt();
+    public function getUpdatedAt():DateTime;
 
     /**
      * @return DateTime
      */
-    public function getDeletedAt();
+    public function getDeletedAt():DateTime;
 
     /**
      * @return boolean
      */
-    public function isDeleted();
+    public function isDeleted():bool;
 
     public function update();
 
