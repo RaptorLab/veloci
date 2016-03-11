@@ -9,7 +9,13 @@
 namespace Veloci\Core\Model;
 
 
+use Veloci\Core\Helper\Metadata\ObjectMetadata;
+use Veloci\Core\Helper\Metadata\PropertyMetadata;
+
 interface MetadataAware
 {
-    public static function getMetadata():array;
+    /**
+     * @return ObjectMetadata
+     */
+    public static function getMetadata():ObjectMetadata;
 }

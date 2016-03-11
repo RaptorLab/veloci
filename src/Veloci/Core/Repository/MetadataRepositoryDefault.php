@@ -8,6 +8,7 @@
 
 namespace Veloci\Core\Repository;
 
+use Veloci\Core\Helper\Metadata\ObjectMetadata;
 use Veloci\Core\Model\MetadataAware;
 
 class MetadataRepositoryDefault implements MetadataRepository
@@ -28,7 +29,7 @@ class MetadataRepositoryDefault implements MetadataRepository
     }
 
 
-    public function getMetadata($class):array
+    public function getMetadata($class):ObjectMetadata
     {
         if (!is_a($class, MetadataAware::class, true)) {
             throw new \RuntimeException('Invalid class. Accepted only MetadataAware instances');

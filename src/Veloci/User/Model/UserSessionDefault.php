@@ -41,22 +41,6 @@ class UserSessionDefault implements UserSession
     }
 
     /**
-     * @return DateTime
-     */
-    public function getCreatedAt()
-    {
-        return $this->createdAt;
-    }
-
-    /**
-     * @return DateTime
-     */
-    public function getUpdatedAt()
-    {
-        return $this->updatedAt;
-    }
-
-    /**
      * @return mixed
      */
     public function getUserId()

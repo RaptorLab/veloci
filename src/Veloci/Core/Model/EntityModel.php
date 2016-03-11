@@ -19,7 +19,7 @@ interface EntityModel extends Model
     /**
      * @return mixed
      */
-    public function getId():mixed;
+    public function getId();
 
     /**
      * @return DateTime
@@ -34,12 +34,7 @@ interface EntityModel extends Model
     /**
      * @return DateTime
      */
-    public function getDeletedAt():DateTime;
-
-    /**
-     * @return boolean
-     */
-    public function isDeleted():bool;
+    public function getDeletedAt();
 
     public function update();
 

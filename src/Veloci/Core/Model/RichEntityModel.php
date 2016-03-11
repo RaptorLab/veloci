@@ -9,7 +9,9 @@
 namespace Veloci\Core\Model;
 
 
-use Veloci\Core\Helper\ModelAnalyzer;
+use Veloci\Core\Helper\Metadata\ModelAnalyzer;
+use Veloci\Core\Helper\Metadata\ObjectMetadata;
+use Veloci\Core\Helper\Metadata\PropertyMetadata;
 
 abstract class RichEntityModel implements EntityModel, MetadataAware
 {
@@ -20,16 +22,22 @@ abstract class RichEntityModel implements EntityModel, MetadataAware
      */
     protected $id;
 
-    public function getId():mixed
+    /**
+     * @return int
+     */
+    public function getId()
     {
         return $this->id;
     }
 
-    public static function getMetadata():array
+    /**
+     * @return ObjectMetadata
+     */
+    public static function getMetadata():ObjectMetadata
     {
-        $metadata = ModelAnalyzer::analize(static::class);
+        $metadata = ModelAnalyzer::analyze(static::class);
 
-        $metadata['id']['keys'] = ['primary'];
+        $metadata->getProperty('id')->setPrimaryKey(true);
 
         return $metadata;
     }

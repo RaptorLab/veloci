@@ -19,7 +19,15 @@ class UserRepositoryTest extends \PHPUnit_Framework_TestCase{
     protected function setUp() {
         parent::setUp();
         
-        $this->repository = new UserRepository();
+//        $this->repository = new UserRepository();
+    }
+
+    /**
+     * @test
+     *
+     */
+    public function test () {
+        \PHPUnit_Framework_Assert::markTestSkipped('to implements');
     }
     
     

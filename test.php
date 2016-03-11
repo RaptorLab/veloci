@@ -32,14 +32,35 @@ include __DIR__ . "/vendor/autoload.php";
 
 $metadataRepository = new \Veloci\Core\Repository\MetadataRepositoryDefault(new \Veloci\Core\Repository\InMemoryKeyValueStore());
 
-$metadata = $metadataRepository->getMetadata(\Veloci\User\Model\UserDefault::class);
+//$metadata = $metadataRepository->getMetadata(\Veloci\User\Model\UserDefault::class);
+//
+//echo json_encode($metadata, JSON_PRETTY_PRINT);
+//
+//$metadata = $metadataRepository->getMetadata(\Veloci\User\Model\UserDefault::class);
+//
+//echo "\n---------------------------------------------------------------------------\n";
+//
+//echo json_encode($metadata, JSON_PRETTY_PRINT);
+//
+//return 0;
 
-echo json_encode($metadata, JSON_PRETTY_PRINT);
+$user = new \Veloci\User\Model\UserDefault();
 
-$metadata = $metadataRepository->getMetadata(\Veloci\User\Model\UserDefault::class);
+$strategies = new \Veloci\Core\Helper\Serializer\SerializationStrategyRepositoryDefault();
 
-echo "\n---------------------------------------------------------------------------\n";
+$strategies->setFallback(new \Veloci\Core\Helper\Serializer\Strategy\DoNothingStrategy());
 
-echo json_encode($metadata, JSON_PRETTY_PRINT);
+$strategies->register(DateTime::class, new \Veloci\Core\Helper\Serializer\Strategy\DateTimeStrategy('H:i:s d/m/Y'));
 
-return 0;
+
+$serializer = new \Veloci\Core\Helper\Serializer\ModelSerializerDefault($strategies, $metadataRepository);
+
+$data = $serializer->serialize($user);
+
+$data['createdAt'] = null;
+
+$object = $serializer->hydrate($data, new \Veloci\User\Model\UserDefault(), true);
+
+print_r($data);
+print_r($object);
+

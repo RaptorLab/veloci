@@ -31,6 +31,7 @@ class UserDefault extends RichEntityModel implements User
     {
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
+        $this->role      = new UserRoleDefault();
     }
 
     /**
@@ -40,7 +41,6 @@ class UserDefault extends RichEntityModel implements User
     {
         return $this->enabled;
     }
-
 
     /**
      * @return UserRole

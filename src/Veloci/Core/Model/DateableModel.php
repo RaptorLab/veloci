@@ -48,7 +48,7 @@ trait DateableModel
     /**
      * @return DateTime
      */
-    public function getDeletedAt():DateTime
+    public function getDeletedAt()
     {
         return $this->deletedAt;
     }
@@ -61,10 +61,5 @@ trait DateableModel
     public function delete()
     {
         $this->deletedAt = new DateTime();
-    }
-
-    public function isDeleted():bool
-    {
-        return $this->deletedAt !== null;
     }
 }
