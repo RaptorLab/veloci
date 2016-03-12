@@ -30,8 +30,9 @@ class ModelSerializerDefault implements ModelSerializer
 
     public function serialize(RichEntityModel $model):array
     {
-        $properties = $this->metadataRepository->getMetadata($model);
-        $result     = [];
+        $objectMetadata = $this->metadataRepository->getMetadata($model);
+        $properties     = $objectMetadata->getProperties();
+        $result         = [];
 
         foreach ($properties as $property) {
             $name   = $property->getName();
@@ -52,9 +53,9 @@ class ModelSerializerDefault implements ModelSerializer
 
         foreach ($properties as $property) {
             if ($fullHydration || !$property->isReadOnly()) {
-                $name   = $property->getName();
-                $type   = $property->getType();
-                $value  = array_key_exists($name, $data) ? $data[$name] : null;
+                $name  = $property->getName();
+                $type  = $property->getType();
+                $value = array_key_exists($name, $data) ? $data[$name] : null;
 
                 $hydratedValue = $this->hydrateProperty($type, $value);
 
