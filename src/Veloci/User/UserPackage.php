@@ -65,7 +65,15 @@ class UserPackage extends Package
 
         $this->container->registerClass(MongoDbManager::class, MongoDbManagerDefault::class);
         $this->container->registerClass(ModelSerializer::class, ModelSerializerDefault::class);
-        $this->container->registerClass(SerializationStrategyRepository::class, SerializationStrategyRepositoryDefault::class);
+        $this->container->registerClass(SerializationStrategyRepository::class, function () {
+            $strategyRepository = new SerializationStrategyRepositoryDefault();
+
+            $strategyRepository->setFallback(new \Veloci\Core\Helper\Serializer\Strategy\DoNothingStrategy());
+
+            $strategyRepository->register(\DateTime::class, new \Veloci\Core\Helper\Serializer\Strategy\DateTimeStrategy('H:i:s d/m/Y'));
+
+            return $strategyRepository;
+        });
         $this->container->registerClass(MetadataRepository::class, function ($app) {
             return new MetadataRepositoryDefault(new InMemoryKeyValueStore());
         });

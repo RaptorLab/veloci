@@ -48,17 +48,19 @@ class ModelSerializerDefault implements ModelSerializer
     public function hydrate(array $data, EntityModel $target, $fullHydration = false):EntityModel
     {
         $objectMetadata = $this->metadataRepository->getMetadata($target);
-        $properties     = $objectMetadata->getProperties();
+//        $properties     = $objectMetadata->getProperties();
 
-        foreach ($properties as $property) {
-            if ($fullHydration || !$property->isReadOnly()) {
-                $name  = $property->getName();
-                $type  = $property->getType();
-                $value = array_key_exists($name, $data) ? $data[$name] : null;
+        foreach ($data as $key => $value) {
+
+            $property = $objectMetadata->getProperty($key);
+
+            if ($property && ($fullHydration || !$property->isReadOnly())) {
+                $type = $property->getType();
+//                $value = array_key_exists($name, $data) ? $data[$name] : null;
 
                 $hydratedValue = $this->hydrateProperty($type, $value);
 
-                $objectMetadata->setValue($target, $name, $hydratedValue);
+                $objectMetadata->setValue($target, $key, $hydratedValue);
             }
         }
 

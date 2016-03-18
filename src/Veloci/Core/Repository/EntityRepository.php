@@ -8,6 +8,7 @@
 
 namespace Veloci\Core\Repository;
 
+use Veloci\Core\Helper\Resultset\Resultset;
 use Veloci\Core\Model\EntityModel;
 
 /**
@@ -36,9 +37,9 @@ interface EntityRepository {
     public function delete(EntityModel $model);
 
     /**
-     * @return EntityModel[] A collection of entities
+     * @return Resultset A collection of entities
      */
-    public function getAll();
+    public function getAll():Resultset;
 
     /**
      * @param EntityModel $model

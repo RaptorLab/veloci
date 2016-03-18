@@ -45,7 +45,7 @@ class UserDefault extends RichEntityModel implements User
     /**
      * @return UserRole
      */
-    public function getRole():UserRole
+    public function getRole()
     {
         return $this->role;
     }

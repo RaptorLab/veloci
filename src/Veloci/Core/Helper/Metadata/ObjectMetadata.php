@@ -52,13 +52,22 @@ class ObjectMetadata
         $this->properties[$property->getName()] = $property;
     }
 
-    public function getProperty(string $propertyName):PropertyMetadata
+    /**
+     * @param string $propertyName
+     * @param bool $raiseException
+     * @return PropertyMetadata|null
+     */
+    public function getProperty(string $propertyName, $raiseException = false)
     {
         if (array_key_exists($propertyName, $this->properties)) {
             return $this->properties[$propertyName];
         }
 
-        throw new \RuntimeException("Unknown $propertyName property on {$this->type}");
+        if ($raiseException) {
+            throw new \RuntimeException("Unknown $propertyName property on {$this->type}");
+        }
+
+        return null;
     }
 
     /**
