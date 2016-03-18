@@ -9,7 +9,16 @@
 namespace Veloci\User;
 
 
+use Veloci\Core\Helper\Serializer\ModelSerializer;
+use Veloci\Core\Helper\Serializer\ModelSerializerDefault;
+use Veloci\Core\Helper\Serializer\SerializationStrategyRepository;
+use Veloci\Core\Helper\Serializer\SerializationStrategyRepositoryDefault;
 use Veloci\Core\Package\Package;
+use Veloci\Core\Repository\InMemoryKeyValueStore;
+use Veloci\Core\Repository\MetadataRepository;
+use Veloci\Core\Repository\MetadataRepositoryDefault;
+use Veloci\Core\Repository\MongoDbManager;
+use Veloci\Core\Repository\MongoDbManagerDefault;
 use Veloci\Core\Repository\RepositoryType;
 use Veloci\User\Factory\UserFactory;
 use Veloci\User\Factory\UserFactoryDefault;
@@ -53,6 +62,14 @@ class UserPackage extends Package
         // Managers
         $this->container->registerClass(UserManager::class, UserManagerDefault::class);
         $this->container->registerClass(AuthManager::class, AuthManagerDefault::class);
+
+        $this->container->registerClass(MongoDbManager::class, MongoDbManagerDefault::class);
+        $this->container->registerClass(ModelSerializer::class, ModelSerializerDefault::class);
+        $this->container->registerClass(SerializationStrategyRepository::class, SerializationStrategyRepositoryDefault::class);
+        $this->container->registerClass(MetadataRepository::class, function ($app) {
+            return new MetadataRepositoryDefault(new InMemoryKeyValueStore());
+        });
+
 
         // Repositories
         $this->registerRepository(RepositoryType::IN_MEMORY, UserRepository::class, InMemoryUserRepository::class);

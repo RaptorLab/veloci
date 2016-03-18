@@ -113,7 +113,7 @@ abstract class MongoDbRepository implements EntityRepository
      * @param EntityModel $model
      * @return boolean
      */
-    public function exists(EntityModel $model)
+    public function exists(EntityModel $model):bool
     {
         // TODO: Implement exists() method.
     }
@@ -122,7 +122,7 @@ abstract class MongoDbRepository implements EntityRepository
      * @param \Veloci\Core\Model\EntityModel $model
      * @return boolean
      */
-    public function accept(EntityModel $model)
+    public function accept(EntityModel $model):bool
     {
         // TODO: Implement accept() method.
     }

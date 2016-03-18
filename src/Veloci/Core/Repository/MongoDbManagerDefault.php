@@ -11,6 +11,7 @@ namespace Veloci\Core\Repository;
 
 use MongoDB\Collection;
 use MongoDB\Database;
+use Veloci\Core\Configuration\MongoDbConfiguration;
 
 class MongoDbManagerDefault implements MongoDbManager
 {
@@ -38,14 +39,19 @@ class MongoDbManagerDefault implements MongoDbManager
      * @var string
      */
     private $databaseName;
+    /**
+     * @var MongoDbConfiguration
+     */
+    private $configuration;
 
-    public function __construct(string $databaseName, string $host = 'localhost', int $port = 27017)
+    /**
+     * MongoDbManagerDefault constructor.
+     * @param MongoDbConfiguration $configuration
+     */
+    public function __construct(MongoDbConfiguration $configuration)
     {
-        $this->host         = $host;
-        $this->port         = $port;
-        $this->databaseName = $databaseName;
-
-        $this->collections = [];
+        $this->collections   = [];
+        $this->configuration = $configuration;
     }
 
     /**
@@ -72,7 +78,7 @@ class MongoDbManagerDefault implements MongoDbManager
     {
         if (!$this->databaseConnection) {
             $client                   = new \MongoDB\Client($this->getConnectionString());
-            $this->databaseConnection = $client->selectDatabase($this->databaseName);
+            $this->databaseConnection = $client->selectDatabase($this->configuration->getDatabaseName());
         }
 
         return $this->databaseConnection;
@@ -80,6 +86,6 @@ class MongoDbManagerDefault implements MongoDbManager
 
     private function getConnectionString():string
     {
-        return "mongodb://{$this->host}:{$this->port}";
+        return "mongodb://{$this->configuration->getHost()}:{$this->configuration->getPort()}";
     }
 }

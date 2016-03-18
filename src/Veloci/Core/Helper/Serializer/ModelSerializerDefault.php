@@ -9,8 +9,7 @@
 namespace Veloci\Core\Helper\Serializer;
 
 
-use Veloci\Core\Helper\Serializer\SerializationStrategyRepository;
-use Veloci\Core\Model\RichEntityModel;
+use Veloci\Core\Model\EntityModel;
 use Veloci\Core\Repository\MetadataRepository;
 
 class ModelSerializerDefault implements ModelSerializer
@@ -28,7 +27,7 @@ class ModelSerializerDefault implements ModelSerializer
         $this->metadataRepository = $metadataRepository;
     }
 
-    public function serialize(RichEntityModel $model):array
+    public function serialize(EntityModel $model):array
     {
         $objectMetadata = $this->metadataRepository->getMetadata($model);
         $properties     = $objectMetadata->getProperties();
@@ -46,7 +45,7 @@ class ModelSerializerDefault implements ModelSerializer
         return $result;
     }
 
-    public function hydrate(array $data, RichEntityModel $target, $fullHydration = false):RichEntityModel
+    public function hydrate(array $data, EntityModel $target, $fullHydration = false):EntityModel
     {
         $objectMetadata = $this->metadataRepository->getMetadata($target);
         $properties     = $objectMetadata->getProperties();
