@@ -8,6 +8,10 @@ namespace Veloci\Core\Repository;
  * Date: 09/03/16
  * Time: 14:52
  */
+use Veloci\Core\Helper\Resultset\Filter\ClosureResultsetFilter;
+use Veloci\Core\Helper\Resultset\Filter\MongoIdResultsetFilter;
+use Veloci\Core\Helper\Resultset\MongodbResultset;
+use Veloci\Core\Helper\Resultset\Resultset;
 use Veloci\Core\Helper\Serializer\ModelSerializer;
 use Veloci\Core\Model\EntityModel;
 use Veloci\Core\Model\RichEntityModel;
@@ -63,7 +67,9 @@ abstract class MongoDbRepository implements EntityRepository
     {
         $collection = $this->getCollectionInstance();
 
-        return $collection->findById($id);
+        $result = $collection->findById($id);
+
+        return $result;
     }
 
     /**
@@ -73,16 +79,15 @@ abstract class MongoDbRepository implements EntityRepository
      */
     public function save(EntityModel $model):EntityModel
     {
-        if ($model instanceof RichEntityModel) {
+        if ($model instanceof EntityModel) {
             // TODO: test serializer, it doesn't work
             $data = $this->serializer->serialize($model);
 
             $collection = $this->getCollectionInstance();
 
-            var_dump($data);
-            die();
+            $result = $collection->insert($data);
 
-            $collection->insert($data);
+            $model = $this->serializer->hydrate($result, $model, true);
         }
 
         return $model;
@@ -100,13 +105,15 @@ abstract class MongoDbRepository implements EntityRepository
     /**
      * @return EntityModel[] A collection of entities
      */
-    public function getAll():array
+    public function getAll():Resultset
     {
         $collection = $this->getCollectionInstance();
 
-        $result = $collection->find();
+        $users = new MongodbResultset($collection->find());
 
-        return $result->toArray();
+        $users->appendFilter(new MongoIdResultsetFilter());
+
+        return $users;
     }
 
     /**

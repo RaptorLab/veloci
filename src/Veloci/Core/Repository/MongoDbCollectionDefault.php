@@ -29,7 +29,7 @@ class MongoDbCollectionDefault implements MongoDbCollection
 
     public function findById($id)
     {
-        return $this->collection->findOne(['_id'=> new \MongoId($id)]);
+        return $this->collection->findOne(['_id' => new \MongoId($id)]);
     }
 
     public function find(array $query = [])
@@ -39,9 +39,13 @@ class MongoDbCollectionDefault implements MongoDbCollection
 
     public function insert(array $data)
     {
-        var_dump($data);
-        die();
-        return $this->collection->insertOne($data);
+        $result = $this->collection->insertOne($data);
+
+        $id = (string)$result->getInsertedId();
+
+        $data['id'] = $id;
+
+        return $data;
     }
 
     public function update(array $data, array $where)
