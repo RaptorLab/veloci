@@ -9,11 +9,11 @@
 namespace Veloci\Core\Helper\Serializer;
 
 
-use Veloci\Core\Model\RichEntityModel;
+use Veloci\Core\Model\EntityModel;
 
 interface ModelSerializer
 {
-    public function serialize(RichEntityModel $model):array;
+    public function serialize(EntityModel $model):array;
 
-    public function hydrate(array $data, RichEntityModel $target):RichEntityModel;
+    public function hydrate(array $data, EntityModel $target):EntityModel;
 }

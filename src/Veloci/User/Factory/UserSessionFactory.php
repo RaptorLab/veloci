@@ -9,17 +9,17 @@
 namespace Veloci\User\Factory;
 
 
+use Veloci\Core\Factory\ModelFactory;
 use Veloci\User\User;
 use Veloci\User\UserSession;
 use Veloci\User\UserToken;
 
-interface UserSessionFactory
+interface UserSessionFactory extends ModelFactory
 {
     /**
      * @param User $user
      * @param UserToken $userToken
-     *
      * @return UserSession
      */
-    public function create(User $user, UserToken $userToken);
+    public function create(User $user, UserToken $userToken):UserSession;
 }

@@ -19,7 +19,7 @@ class UserTokenFactoryDefault implements UserTokenFactory
      *
      * @return UserToken
      */
-    public function create(User $user)
+    public function create(User $user):UserToken
     {
         return new UserTokenDefault($user);
     }

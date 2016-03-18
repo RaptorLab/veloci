@@ -13,7 +13,7 @@ use Veloci\Core\Helper\Metadata\ModelAnalyzer;
 use Veloci\Core\Helper\Metadata\ObjectMetadata;
 use Veloci\Core\Helper\Metadata\PropertyMetadata;
 
-abstract class RichEntityModel implements EntityModel, MetadataAware
+abstract class RichEntityModel implements EntityModel
 {
     use DateableModel;
 

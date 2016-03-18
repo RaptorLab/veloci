@@ -8,12 +8,8 @@
 
 namespace Veloci\User\Factory;
 
-use Veloci\User\User;
+use Veloci\Core\Factory\ModelFactory;
 
-interface UserFactory
+interface UserFactory extends ModelFactory
 {
-    /**
-     * @return User
-     */
-    public function create();
 }

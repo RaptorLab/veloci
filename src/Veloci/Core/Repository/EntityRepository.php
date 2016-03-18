@@ -19,7 +19,7 @@ interface EntityRepository {
     /**
      * 
      * @param mixed $id
-     * @return EntityModel
+     * @return EntityModel|null
      */
     public function get($id);
     
@@ -44,11 +44,12 @@ interface EntityRepository {
      * @param EntityModel $model
      * @return boolean
      */
-    public function exists(EntityModel $model);
+    public function exists(EntityModel $model):bool ;
 
     /**
      * @param EntityModel $model
      * @return boolean
      */
-    public function accept(EntityModel $model);
+    public function accept(EntityModel $model):bool;
+
 }

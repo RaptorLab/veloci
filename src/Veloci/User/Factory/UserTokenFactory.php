@@ -9,8 +9,13 @@
 namespace Veloci\User\Factory;
 
 use Veloci\User\User;
+use Veloci\User\UserToken;
 
 interface UserTokenFactory
 {
-    public function create(User $user);
+    /**
+     * @param User $user
+     * @return UserToken
+     */
+    public function create(User $user):UserToken;
 }

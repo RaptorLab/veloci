@@ -12,6 +12,7 @@ namespace Veloci\User\Factory;
 use Veloci\Core\Model\Model;
 use Veloci\User\Model\UserSessionDefault;
 use Veloci\User\User;
+use Veloci\User\UserSession;
 use Veloci\User\UserToken;
 
 class UserSessionFactoryDefault implements UserSessionFactory
@@ -19,9 +20,9 @@ class UserSessionFactoryDefault implements UserSessionFactory
     /**
      * @param User $user
      * @param UserToken $userToken
-     * @return Model
+     * @return UserSession
      */
-    public function create(User $user, UserToken $userToken)
+    public function create(User $user, UserToken $userToken):UserSession
     {
         return new UserSessionDefault($userToken, $user);
     }

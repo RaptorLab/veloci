@@ -33,4 +33,10 @@ abstract class Package {
 	 *
 	 */
 	abstract protected function init();
+
+	protected function registerRepository ($type, $interface, $class) {
+		if (env('DB_DRIVER') === $type) {
+			$this->container->registerClass($interface, $class);
+		}
+	}
 }

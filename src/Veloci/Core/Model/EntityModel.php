@@ -13,7 +13,7 @@ use DateTime;
  *
  * @author christian
  */
-interface EntityModel extends Model
+interface EntityModel extends Model, MetadataAware
 {
 
     /**
