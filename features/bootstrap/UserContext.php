@@ -8,6 +8,12 @@
 use Behat\Behat\Context\Context;
 use Behat\Behat\Context\SnippetAcceptingContext;
 use PHPUnit_Framework_Assert as PHPUnit;
+use Veloci\Core\Helper\DependencyInjectionContainer;
+use Veloci\Core\Helper\Serializer\ModelSerializer;
+use Veloci\Core\Helper\Serializer\ModelSerializerDefault;
+use Veloci\Core\Helper\Serializer\SerializationStrategyRepositoryDefault;
+use Veloci\Core\Repository\InMemoryKeyValueStore;
+use Veloci\Core\Repository\MetadataRepositoryDefault;
 use Veloci\User\Exception\AuthenticationFail;
 use Veloci\User\Factory\UserFactoryDefault;
 use Veloci\User\Factory\UserSessionFactoryDefault;
@@ -63,7 +69,10 @@ class UserContext implements Context, SnippetAcceptingContext
      */
     public function before()
     {
-        $this->userRepository = new InMemoryUserRepository(new UserFactoryDefault());
+        $dependencyInjectionContainer = $this->mockDependencyInjectionContainer();
+        $serializer                   = $this->mockModelSerializer();
+
+        $this->userRepository = new InMemoryUserRepository(new UserFactoryDefault($dependencyInjectionContainer, $serializer));
         $this->userManager    = new UserManagerDefault($this->userRepository);
 
         $this->userSessionRepository = new InMemoryUserSessionRepository(new UserSessionFactoryDefault());
@@ -183,5 +192,22 @@ class UserContext implements Context, SnippetAcceptingContext
         $userSession = $this->userSessionRepository->getByUser($this->user);
 
         PHPUnit::assertNull($userSession);
+    }
+
+    private function mockDependencyInjectionContainer():DependencyInjectionContainer
+    {
+        $mock = Mockery::mock(DependencyInjectionContainer::class);
+
+        $mock->shouldReceive('get')->zeroOrMoreTimes()->andReturn(new \Veloci\User\Model\UserDefault());
+
+        return $mock;
+    }
+
+    private function mockModelSerializer():ModelSerializer
+    {
+        $serializationStrategyRepository = new SerializationStrategyRepositoryDefault();
+        $metadataRepository              = new MetadataRepositoryDefault(new InMemoryKeyValueStore());
+
+        return new ModelSerializerDefault($serializationStrategyRepository, $metadataRepository);
     }
 }
