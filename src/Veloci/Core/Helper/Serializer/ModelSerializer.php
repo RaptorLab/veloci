@@ -13,7 +13,17 @@ use Veloci\Core\Model\EntityModel;
 
 interface ModelSerializer
 {
+    /**
+     * @param EntityModel $model
+     * @return array
+     */
     public function serialize(EntityModel $model):array;
 
-    public function hydrate(array $data, EntityModel $target):EntityModel;
+    /**
+     * @param array $data
+     * @param EntityModel $target
+     * @param bool $fullHydration
+     * @return EntityModel
+     */
+    public function hydrate(array $data, EntityModel $target, $fullHydration = false):EntityModel;
 }

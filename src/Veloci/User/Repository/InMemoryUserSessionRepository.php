@@ -39,7 +39,7 @@ class InMemoryUserSessionRepository extends InMemoryRepository implements UserSe
      * @param EntityModel $model
      * @return boolean
      */
-    public function accept(EntityModel $model)
+    public function accept(EntityModel $model):bool
     {
         return $model instanceof UserSession;
     }

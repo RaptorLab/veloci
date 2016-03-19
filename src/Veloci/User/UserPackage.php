@@ -9,10 +9,13 @@
 namespace Veloci\User;
 
 
+use DateTime;
 use Veloci\Core\Helper\Serializer\ModelSerializer;
 use Veloci\Core\Helper\Serializer\ModelSerializerDefault;
 use Veloci\Core\Helper\Serializer\SerializationStrategyRepository;
 use Veloci\Core\Helper\Serializer\SerializationStrategyRepositoryDefault;
+use Veloci\Core\Helper\Serializer\Strategy\DateTimeStrategy;
+use Veloci\Core\Helper\Serializer\Strategy\DoNothingStrategy;
 use Veloci\Core\Package\Package;
 use Veloci\Core\Repository\InMemoryKeyValueStore;
 use Veloci\Core\Repository\MetadataRepository;
@@ -68,13 +71,13 @@ class UserPackage extends Package
         $this->container->registerClass(SerializationStrategyRepository::class, function () {
             $strategyRepository = new SerializationStrategyRepositoryDefault();
 
-            $strategyRepository->setFallback(new \Veloci\Core\Helper\Serializer\Strategy\DoNothingStrategy());
+            $strategyRepository->setFallback(new DoNothingStrategy());
 
-            $strategyRepository->register(\DateTime::class, new \Veloci\Core\Helper\Serializer\Strategy\DateTimeStrategy('H:i:s d/m/Y'));
+            $strategyRepository->register(DateTime::class, new DateTimeStrategy('H:i:s d/m/Y'));
 
             return $strategyRepository;
         });
-        $this->container->registerClass(MetadataRepository::class, function ($app) {
+        $this->container->registerClass(MetadataRepository::class, function () {
             return new MetadataRepositoryDefault(new InMemoryKeyValueStore());
         });
 

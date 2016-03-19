@@ -11,7 +11,6 @@ namespace Veloci\Core\Model;
 
 use Veloci\Core\Helper\Metadata\ModelAnalyzer;
 use Veloci\Core\Helper\Metadata\ObjectMetadata;
-use Veloci\Core\Helper\Metadata\PropertyMetadata;
 
 abstract class RichEntityModel implements EntityModel
 {
@@ -32,6 +31,8 @@ abstract class RichEntityModel implements EntityModel
 
     /**
      * @return ObjectMetadata
+     *
+     * @throws \RuntimeException
      */
     public static function getMetadata():ObjectMetadata
     {

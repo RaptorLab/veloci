@@ -8,13 +8,13 @@ namespace Veloci\Core\Repository;
  * Date: 09/03/16
  * Time: 14:52
  */
-use Veloci\Core\Helper\Resultset\Filter\ClosureResultsetFilter;
+
 use Veloci\Core\Helper\Resultset\Filter\MongoIdResultsetFilter;
 use Veloci\Core\Helper\Resultset\MongodbResultset;
 use Veloci\Core\Helper\Resultset\Resultset;
 use Veloci\Core\Helper\Serializer\ModelSerializer;
 use Veloci\Core\Model\EntityModel;
-use Veloci\Core\Model\RichEntityModel;
+
 
 abstract class MongoDbRepository implements EntityRepository
 {
@@ -36,7 +36,8 @@ abstract class MongoDbRepository implements EntityRepository
 
     /**
      * MongoDbRepository constructor.
-     * @param string $collection
+     * @param MongoDbManager $db
+     * @param ModelSerializer $serializer
      */
     public function __construct(MongoDbManager $db, ModelSerializer $serializer)
     {
@@ -67,9 +68,7 @@ abstract class MongoDbRepository implements EntityRepository
     {
         $collection = $this->getCollectionInstance();
 
-        $result = $collection->findById($id);
-
-        return $result;
+        return $collection->findById($id);
     }
 
     /**
@@ -103,7 +102,7 @@ abstract class MongoDbRepository implements EntityRepository
     }
 
     /**
-     * @return EntityModel[] A collection of entities
+     * @return Resultset A collection of entities
      */
     public function getAll():Resultset
     {

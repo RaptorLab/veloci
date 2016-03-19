@@ -2,7 +2,7 @@
 
 namespace Veloci\Core\Package;
 
-use Veloci\Core\Router\Router;
+
 use Veloci\Core\Helper\DependencyInjectionContainer;
 
 abstract class Package
@@ -15,7 +15,7 @@ abstract class Package
 
     /**
      * Package constructor.
-     * @param Router $router
+     *
      * @param DependencyInjectionContainer $container
      */
     public function __construct(DependencyInjectionContainer $container)

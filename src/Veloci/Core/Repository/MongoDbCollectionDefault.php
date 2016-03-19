@@ -50,11 +50,13 @@ class MongoDbCollectionDefault implements MongoDbCollection
 
     public function update(array $data, array $where)
     {
-        return $this->collection->update($where, $data);
+        // TODO: Implements MongoDB Collection Update
+//        return $this->collection-> update($where, $data);
     }
 
     public function delete(array $where)
     {
-        return $this->collection->remove($where);
+        // TODO: Implements MongoDB Collection Delete
+//        return $this->collection->remove($where);
     }
 }

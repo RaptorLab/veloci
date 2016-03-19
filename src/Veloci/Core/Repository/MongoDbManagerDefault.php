@@ -9,22 +9,13 @@
 namespace Veloci\Core\Repository;
 
 
-use MongoDB\Collection;
-use MongoDB\Database;
+use MongoDB\Client as MongoDBClient;
+use MongoDB\Database as MongoDBDatabase;
+use MongoDB\Exception\InvalidArgumentException;
 use Veloci\Core\Configuration\MongoDbConfiguration;
 
 class MongoDbManagerDefault implements MongoDbManager
 {
-    /**
-     * @var string
-     */
-    private $host;
-
-    /**
-     * @var int
-     */
-    private $port;
-
     /*
      * @var \MongoClient
      */
@@ -35,10 +26,6 @@ class MongoDbManagerDefault implements MongoDbManager
      */
     private $collections;
 
-    /**
-     * @var string
-     */
-    private $databaseName;
     /**
      * @var MongoDbConfiguration
      */
@@ -57,6 +44,8 @@ class MongoDbManagerDefault implements MongoDbManager
     /**
      * @param $collectionName
      * @return MongoDbCollection
+     *
+     * @throws InvalidArgumentException
      */
     public function getCollection(string $collectionName):MongoDbCollection
     {
@@ -72,12 +61,14 @@ class MongoDbManagerDefault implements MongoDbManager
 
 
     /**
-     * @return Database
+     * @return MongoDBDatabase
+     *
+     * @throws InvalidArgumentException
      */
-    protected function getDatabaseConnection():Database
+    protected function getDatabaseConnection():MongoDBDatabase
     {
         if (!$this->databaseConnection) {
-            $client                   = new \MongoDB\Client($this->getConnectionString());
+            $client                   = new MongoDBClient($this->getConnectionString());
             $this->databaseConnection = $client->selectDatabase($this->configuration->getDatabaseName());
         }
 

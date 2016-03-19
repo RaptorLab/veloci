@@ -10,7 +10,7 @@ namespace Veloci\Core\Repository;
 
 
 use Veloci\Core\Helper\Metadata\ObjectMetadata;
-use Veloci\Core\Helper\Metadata\PropertyMetadata;
+
 
 interface MetadataRepository
 {

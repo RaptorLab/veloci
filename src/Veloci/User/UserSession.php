@@ -10,12 +10,12 @@ interface UserSession extends EntityModel {
     /**
      * @return DateTime
      */
-    public function getCreatedAt();
+    public function getCreatedAt():DateTime;
 
     /**
      * @return DateTime
      */
-    public function getUpdatedAt();
+    public function getUpdatedAt():DateTime;
 
 
     /**

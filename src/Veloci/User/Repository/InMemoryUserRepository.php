@@ -36,7 +36,7 @@ class InMemoryUserRepository extends InMemoryRepository implements UserRepositor
         $this->userFactory = $userFactory;
     }
 
-    public function accept(EntityModel $model)
+    public function accept(EntityModel $model):bool
     {
         return $model instanceof User;
     }
@@ -44,7 +44,7 @@ class InMemoryUserRepository extends InMemoryRepository implements UserRepositor
     /**
      * @return User
      */
-    public function create()
+    public function create():EntityModel
     {
         return $this->userFactory->create();
     }

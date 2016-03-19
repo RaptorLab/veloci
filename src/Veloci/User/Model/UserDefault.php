@@ -25,7 +25,7 @@ class UserDefault extends RichEntityModel implements User
 
     /**
      * UserModelDefault constructor.
-     * @param $id
+     *
      */
     public function __construct()
     {

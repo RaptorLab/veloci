@@ -38,12 +38,14 @@ abstract class ContainerAwareModelFactory implements ModelFactory
     /**
      * @param array $data
      * @return mixed
+     *
+     * @throws \RuntimeException
      */
     final public function create(array $data = []):EntityModel
     {
         $model = $this->container->get($this->className);
 
-        if ($model == null) {
+        if ($model === null) {
             throw new \RuntimeException ('Cannot create a new instance of ' . $this->className);
         }
 

@@ -9,7 +9,7 @@
 namespace Veloci\User\Factory;
 
 
-use Veloci\Core\Model\Model;
+
 use Veloci\User\Model\UserSessionDefault;
 use Veloci\User\User;
 use Veloci\User\UserSession;

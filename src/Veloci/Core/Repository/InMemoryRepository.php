@@ -10,6 +10,7 @@ namespace Veloci\Core\Repository;
 
 use Closure;
 use Doctrine\Common\Collections\ArrayCollection;
+use Veloci\Core\Helper\Resultset\Resultset;
 use Veloci\Core\Model\EntityModel;
 
 /**
@@ -49,9 +50,9 @@ abstract class InMemoryRepository implements EntityRepository
 
     /**
      *
-     * @return EntityModel[]
+     * @return Resultset
      */
-    public function getAll()
+    public function getAll():Resultset
     {
         return $this->repository->toArray();
     }
@@ -71,7 +72,7 @@ abstract class InMemoryRepository implements EntityRepository
         }
     }
 
-    public function exists(EntityModel $model)
+    public function exists(EntityModel $model):bool
     {
         return $this->repository->containsKey($model->getId());
     }

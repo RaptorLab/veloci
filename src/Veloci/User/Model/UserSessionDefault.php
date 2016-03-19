@@ -10,17 +10,15 @@ namespace Veloci\User\Model;
 
 
 use DateTime;
+
 use Veloci\Core\Model\DateableModel;
+use Veloci\Core\Model\RichEntityModel;
 use Veloci\User\User;
 use Veloci\User\UserSession;
 use Veloci\User\UserToken;
 
-class UserSessionDefault implements UserSession
+class UserSessionDefault extends RichEntityModel implements UserSession
 {
-    use DateableModel;
-
-    private $id;
-
     /**
      * @var mixed
      */
@@ -51,10 +49,5 @@ class UserSessionDefault implements UserSession
     public function __wakeup()
     {
         $this->updatedAt = new DateTime();
-    }
-
-    public function getId()
-    {
-        return $this->id;
     }
 }

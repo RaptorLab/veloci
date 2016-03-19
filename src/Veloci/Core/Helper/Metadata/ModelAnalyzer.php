@@ -63,11 +63,13 @@ class ModelAnalyzer
             $propertyInfo->setBuiltIn($returnType->isBuiltin());
         } else {
 
-            $result = preg_match("/@return ([A-Za-z0-9_].)/", $method->getDocComment(), $matches);
+            $result = preg_match('/@return ([\w].)/', $method->getDocComment(), $matches);
 
-            $type = ($result === 1) ? $matches[1] : 'mixed';
+            $type   = ($result === 1)
+                ? $matches[1]
+                : 'mixed';
 
-            $propertyInfo->setType('mixed');
+            $propertyInfo->setType($type);
             $propertyInfo->setNullable(true);
             $propertyInfo->setBuiltIn(false);
         }
@@ -83,14 +85,14 @@ class ModelAnalyzer
             return null;
         }
 
-        $propertyName{0} = strtolower($propertyName{0});
+        $propertyName[0] = strtolower($propertyName[0]);
 
         return $propertyName;
     }
 
     private static function getSetterName($propertyName)
     {
-        $propertyName{0} = strtoupper($propertyName{0});
+        $propertyName[0] = strtoupper($propertyName[0]);
 
         return "set{$propertyName}";
     }

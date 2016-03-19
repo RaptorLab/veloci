@@ -10,7 +10,7 @@ namespace Veloci\Core\Helper\Metadata;
 
 
 use ReflectionClass;
-use Veloci\Core\Model\RichEntityModel;
+
 
 class ObjectMetadata
 {
@@ -56,6 +56,7 @@ class ObjectMetadata
      * @param string $propertyName
      * @param bool $raiseException
      * @return PropertyMetadata|null
+     * @throws \RuntimeException
      */
     public function getProperty(string $propertyName, $raiseException = false)
     {
