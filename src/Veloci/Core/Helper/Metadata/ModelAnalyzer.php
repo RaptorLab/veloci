@@ -12,7 +12,7 @@ namespace Veloci\Core\Helper\Metadata;
 use ReflectionClass;
 use ReflectionMethod;
 
-class ModelAnalyzer
+final class ModelAnalyzer
 {
     /**
      * @param $object
@@ -32,14 +32,14 @@ class ModelAnalyzer
         /** @var ReflectionMethod $method */
         foreach ($methods as $method) {
             $getter       = $method->getName();
-            $propertyName = static::getPropertyName($getter);
+            $propertyName = self::getPropertyName($getter);
 
-            if ($propertyName && $method->isPublic() && !$method->isStatic()) {
+            if ($propertyName !== null && $method->isPublic() && !$method->isStatic()) {
 
                 $propertyInfo = new PropertyMetadata();
-                $setter       = static::getSetterName($propertyName);
+                $setter       = self::getSetterName($propertyName);
 
-                static::setReturnTypeInfo($propertyInfo, $method);
+                self::setReturnTypeInfo($propertyInfo, $method);
 
                 $propertyInfo->setName($propertyName);
                 $propertyInfo->setReadOnly(!$class->hasMethod($setter));
@@ -65,7 +65,7 @@ class ModelAnalyzer
 
             $result = preg_match('/@return ([\w].)/', $method->getDocComment(), $matches);
 
-            $type   = ($result === 1)
+            $type = ($result === 1)
                 ? $matches[1]
                 : 'mixed';
 
@@ -90,10 +90,10 @@ class ModelAnalyzer
         return $propertyName;
     }
 
-    private static function getSetterName($propertyName)
+    private static function getSetterName(string $propertyName)
     {
         $propertyName[0] = strtoupper($propertyName[0]);
 
-        return "set{$propertyName}";
+        return 'set' . $propertyName;
     }
 }
