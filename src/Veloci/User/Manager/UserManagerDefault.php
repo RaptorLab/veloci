@@ -35,7 +35,9 @@ class UserManagerDefault implements UserManager
      */
     public function enable(User $user)
     {
-        // TODO: Implement enable() method.
+        $user->enable();
+
+        $this->userRepository->save($user);
     }
 
     /**
@@ -43,7 +45,9 @@ class UserManagerDefault implements UserManager
      */
     public function disable(User $user)
     {
-        // TODO: Implement disable() method.
+        $user->disable();
+
+        $this->userRepository->save($user);
     }
 
     /**

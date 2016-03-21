@@ -10,12 +10,11 @@ namespace Test\Veloci\User\Manager;
 
 
 use Mockery;
-use Veloci\User\Manager\UserManager;
+use Veloci\User\Factory\UserFactory;
 use Veloci\User\Manager\UserManagerDefault;
-use Veloci\User\Manager\UserSessionManager;
-use Veloci\User\Model\UserModelDefault;
 use Veloci\User\Repository\InMemoryUserRepository;
 use Veloci\User\Repository\UserRepository;
+use Veloci\User\User;
 
 class UserManagerDefaultTest extends \PHPUnit_Framework_TestCase
 {
@@ -24,42 +23,66 @@ class UserManagerDefaultTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldSignup()
     {
-        \PHPUnit_Framework_Assert::markTestSkipped('To implements');
-//        $userSessionManager = $this->mockUserSessionManager();
-//        $userRepository     = $this->mockUserRepository();
-//
-//        $manager = new UserManagerDefault(
-//            $userRepository
-//        );
+//        \PHPUnit_Framework_Assert::markTestSkipped('To implements');
+        $userRepository = $this->mockUserRepository();
+        $user           = $userRepository->create();
 
-//        $user = new UserModelDefault(1);
-//
-//        static::assertFalse($userRepository->exists($user));
-//
-//        $manager->signup($user);
-//
-//        static::assertTrue($userRepository->exists($user));
-//
-//        static::assertEquals($user, $userRepository->get($user->getId()));
+        $manager = new UserManagerDefault(
+            $userRepository
+        );
+
+        $manager->signup($user);
+
+        static::assertTrue($userRepository->exists($user));
+
+        static::assertEquals($user, $userRepository->get($user->getId()));
     }
 
     /**
-     * @return Mockery\MockInterface|UserSessionManager
+     * @return Mockery\MockInterface
      */
     private function mockUserSessionManager()
     {
-//        return Mockery::mock(UserSessionManager::class);
     }
 
     /**
      * @return UserRepository
      */
-    private function mockUserRepository()
+    private function mockUserRepository():UserRepository
     {
 //        $mock = Mockery::mock(UserRepository::class);
 //
 //        return $mock;
 
-//        return new InMemoryUserRepository();
+        $userFactory = $this->mockUserFactory();
+
+        return new InMemoryUserRepository($userFactory);
+    }
+
+    /**
+     * @return Mockery\MockInterface|UserFactory
+     */
+    private function mockUserFactory():UserFactory
+    {
+        $mock = Mockery::mock(UserFactory::class);
+
+        $mock->shouldReceive('create')
+            ->andReturn(
+                $this->mockUser(uniqid('user_', true))
+            );
+
+        return $mock;
+    }
+
+    /**
+     * @return Mockery\MockInterface|User
+     */
+    private function mockUser($id):User
+    {
+        $mock = Mockery::mock(User::class);
+
+        $mock->shouldReceive('getId')->andReturn($id);
+
+        return $mock;
     }
 }
