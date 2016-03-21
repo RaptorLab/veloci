@@ -14,7 +14,7 @@ use Veloci\Core\Helper\Serializer\ModelSerializerDefault;
 use Veloci\Core\Helper\Serializer\SerializationStrategyRepositoryDefault;
 use Veloci\Core\Repository\InMemoryKeyValueStore;
 use Veloci\Core\Repository\MetadataRepositoryDefault;
-use Veloci\User\Exception\AuthenticationFail;
+use Veloci\User\Exception\AuthenticationFailException;
 use Veloci\User\Factory\UserFactoryDefault;
 use Veloci\User\Factory\UserSessionFactoryDefault;
 use Veloci\User\Factory\UserTokenFactoryDefault;
@@ -144,7 +144,7 @@ class UserContext implements Context, SnippetAcceptingContext
     public function aUserNotFoundErrorMustBeRaised()
     {
         PHPUnit::assertNotNull($this->lastException);
-        PHPUnit::assertInstanceOf(AuthenticationFail::class, $this->lastException);
+        PHPUnit::assertInstanceOf(AuthenticationFailException::class, $this->lastException);
         PHPUnit::assertEquals('User not exists', $this->lastException->getMessage());
     }
 

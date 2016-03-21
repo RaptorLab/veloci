@@ -10,7 +10,7 @@ namespace Veloci\User\Exception;
 
 use RuntimeException;
 
-class AuthenticationFail extends RuntimeException
+class AuthenticationFailException extends RuntimeException
 {
 
 }

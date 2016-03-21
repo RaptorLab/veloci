@@ -9,7 +9,7 @@
 namespace Veloci\User\Manager;
 
 
-use Veloci\User\Exception\AuthenticationFail;
+use Veloci\User\Exception\AuthenticationFailException;
 use Veloci\User\Factory\UserTokenFactory;
 use Veloci\User\Repository\UserRepository;
 use Veloci\User\Repository\UserSessionRepository;
@@ -50,12 +50,12 @@ class AuthManagerDefault implements AuthManager
      *
      * @return UserSession
      *
-     * @throws AuthenticationFail
+     * @throws AuthenticationFailException
      */
     public function login(User $user)
     {
         if (!$this->userRepository->exists($user)) {
-            throw new AuthenticationFail('User not exists');
+            throw new AuthenticationFailException('User not exists');
         }
 
         $userSession = $this->userSessionRepository->getByUser($user);
