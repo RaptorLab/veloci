@@ -23,6 +23,13 @@ class ObjectMetadata
     /** @var string */
     private $type;
 
+    public function __construct($object)
+    {
+        $this->reflectionClass = new ReflectionClass($object);
+
+        $this->type = is_string($object) ? $object : get_class($object);
+    }
+
     /**
      * @return ReflectionClass
      */
@@ -32,19 +39,16 @@ class ObjectMetadata
     }
 
     /**
-     * @param ReflectionClass $reflectionClass
-     */
-    public function setReflectionClass($reflectionClass)
-    {
-        $this->reflectionClass = $reflectionClass;
-    }
-
-    /**
      * @return PropertyMetadata[]
      */
     public function getProperties():array
     {
         return $this->properties;
+    }
+
+    public function getMethods():array
+    {
+        return $this->reflectionClass->getMethods();
     }
 
     public function addProperty(PropertyMetadata $property)
@@ -80,14 +84,6 @@ class ObjectMetadata
     }
 
     /**
-     * @param string $type
-     */
-    public function setType(string $type)
-    {
-        $this->type = $type;
-    }
-
-    /**
      * @param $object
      * @param string $name
      * @param mixed $value
@@ -108,5 +104,10 @@ class ObjectMetadata
     public function __sleep()
     {
         return ['properties', 'type'];
+    }
+
+    public function hasMethod($name)
+    {
+        return $this->reflectionClass->hasMethod($name);
     }
 }

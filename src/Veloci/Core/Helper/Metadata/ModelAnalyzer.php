@@ -20,14 +20,9 @@ final class ModelAnalyzer
      */
     public static function analyze($object):ObjectMetadata
     {
-        $objectMetadata = new ObjectMetadata();
+        $objectMetadata = new ObjectMetadata($object);
 
-        $class = new ReflectionClass($object);
-
-        $objectMetadata->setReflectionClass($class);
-        $objectMetadata->setType(is_string($object) ? $object : get_class($object));
-
-        $methods = $class->getMethods();
+        $methods = $objectMetadata->getMethods();
 
         /** @var ReflectionMethod $method */
         foreach ($methods as $method) {
@@ -42,7 +37,7 @@ final class ModelAnalyzer
                 self::setReturnTypeInfo($propertyInfo, $method);
 
                 $propertyInfo->setName($propertyName);
-                $propertyInfo->setReadOnly(!$class->hasMethod($setter));
+                $propertyInfo->setReadOnly(!$objectMetadata->hasMethod($setter));
                 $propertyInfo->setGetter($getter);
                 $propertyInfo->setSetter($setter);
 
