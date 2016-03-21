@@ -4,8 +4,8 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "85a8c394f68a72f390b5ed87ea92af8c",
-    "content-hash": "901a9e30ef732062e1568a7954e0e238",
+    "hash": "d94767f4d697dd1ae79e3dded927809a",
+    "content-hash": "e83fc616cf555ae09fd49f1886e862a2",
     "packages": [
         {
             "name": "doctrine/collections",
@@ -370,20 +370,20 @@
         },
         {
             "name": "hamcrest/hamcrest-php",
-            "version": "v1.2.2",
+            "version": "v2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/hamcrest/hamcrest-php.git",
-                "reference": "b37020aa976fa52d3de9aa904aa2522dc518f79c"
+                "reference": "776503d3a8e85d4f9a1148614f95b7a608b046ad"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/hamcrest/hamcrest-php/zipball/b37020aa976fa52d3de9aa904aa2522dc518f79c",
-                "reference": "b37020aa976fa52d3de9aa904aa2522dc518f79c",
+                "url": "https://api.github.com/repos/hamcrest/hamcrest-php/zipball/776503d3a8e85d4f9a1148614f95b7a608b046ad",
+                "reference": "776503d3a8e85d4f9a1148614f95b7a608b046ad",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.2"
+                "php": "^5.3|^7.0"
             },
             "replace": {
                 "cordoval/hamcrest-php": "*",
@@ -392,15 +392,18 @@
             },
             "require-dev": {
                 "phpunit/php-file-iterator": "1.3.3",
-                "satooshi/php-coveralls": "dev-master"
+                "phpunit/phpunit": "~4.0",
+                "satooshi/php-coveralls": "^1.0"
             },
             "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.0-dev"
+                }
+            },
             "autoload": {
                 "classmap": [
                     "hamcrest"
-                ],
-                "files": [
-                    "hamcrest/Hamcrest.php"
                 ]
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -411,7 +414,7 @@
             "keywords": [
                 "test"
             ],
-            "time": "2015-05-11 14:41:42"
+            "time": "2016-01-20 08:20:44"
         },
         {
             "name": "hoa/compiler",
@@ -1019,22 +1022,22 @@
         },
         {
             "name": "mockery/mockery",
-            "version": "0.9.4",
+            "version": "dev-master",
             "source": {
                 "type": "git",
                 "url": "https://github.com/padraic/mockery.git",
-                "reference": "70bba85e4aabc9449626651f48b9018ede04f86b"
+                "reference": "e597b2047e5a722dc18d7a629a2964b4ca606441"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/padraic/mockery/zipball/70bba85e4aabc9449626651f48b9018ede04f86b",
-                "reference": "70bba85e4aabc9449626651f48b9018ede04f86b",
+                "url": "https://api.github.com/repos/padraic/mockery/zipball/e597b2047e5a722dc18d7a629a2964b4ca606441",
+                "reference": "e597b2047e5a722dc18d7a629a2964b4ca606441",
                 "shasum": ""
             },
             "require": {
-                "hamcrest/hamcrest-php": "~1.1",
+                "hamcrest/hamcrest-php": "^2.0@dev",
                 "lib-pcre": ">=7.0",
-                "php": ">=5.3.2"
+                "php": ">=5.4.0"
             },
             "require-dev": {
                 "phpunit/phpunit": "~4.0"
@@ -1042,7 +1045,7 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "0.9.x-dev"
+                    "dev-master": "1.0.x-dev"
                 }
             },
             "autoload": {
@@ -1080,7 +1083,7 @@
                 "test double",
                 "testing"
             ],
-            "time": "2015-04-02 19:54:00"
+            "time": "2016-03-17 19:48:40"
         },
         {
             "name": "myclabs/deep-copy",
@@ -1280,16 +1283,16 @@
         },
         {
             "name": "phpmetrics/phpmetrics",
-            "version": "v1.9.0",
+            "version": "v1.9.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/phpmetrics/PhpMetrics.git",
-                "reference": "342d9a6dd9e7207508f9ac150ad92ad62971e30b"
+                "reference": "0afb4f4226976ac74ef7592dd44175f8b886740b"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/phpmetrics/PhpMetrics/zipball/342d9a6dd9e7207508f9ac150ad92ad62971e30b",
-                "reference": "342d9a6dd9e7207508f9ac150ad92ad62971e30b",
+                "url": "https://api.github.com/repos/phpmetrics/PhpMetrics/zipball/0afb4f4226976ac74ef7592dd44175f8b886740b",
+                "reference": "0afb4f4226976ac74ef7592dd44175f8b886740b",
                 "shasum": ""
             },
             "require": {
@@ -1340,7 +1343,7 @@
                 "quality",
                 "testing"
             ],
-            "time": "2016-03-17 12:36:16"
+            "time": "2016-03-20 20:55:08"
         },
         {
             "name": "phpspec/prophecy",
@@ -2247,12 +2250,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/squizlabs/PHP_CodeSniffer.git",
-                "reference": "c95d6611dbe2111c2b29f26926b8834bcc8541c1"
+                "reference": "d44bcf860a2c5aebe37974fbf1b8a2465dc7baab"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/c95d6611dbe2111c2b29f26926b8834bcc8541c1",
-                "reference": "c95d6611dbe2111c2b29f26926b8834bcc8541c1",
+                "url": "https://api.github.com/repos/squizlabs/PHP_CodeSniffer/zipball/d44bcf860a2c5aebe37974fbf1b8a2465dc7baab",
+                "reference": "d44bcf860a2c5aebe37974fbf1b8a2465dc7baab",
                 "shasum": ""
             },
             "require": {
@@ -2299,7 +2302,7 @@
                 "phpcs",
                 "standards"
             ],
-            "time": "2016-03-15 21:03:08"
+            "time": "2016-03-20 21:21:33"
         },
         {
             "name": "symfony/class-loader",
@@ -2928,7 +2931,8 @@
     "aliases": [],
     "minimum-stability": "stable",
     "stability-flags": {
-        "squizlabs/php_codesniffer": 20
+        "squizlabs/php_codesniffer": 20,
+        "mockery/mockery": 20
     },
     "prefer-stable": false,
     "prefer-lowest": false,
