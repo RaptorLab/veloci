@@ -52,7 +52,7 @@ class AuthManagerDefault implements AuthManager
      *
      * @throws AuthenticationFailException
      */
-    public function login(User $user)
+    public function login(User $user):UserSession
     {
         if (!$this->userRepository->exists($user)) {
             throw new AuthenticationFailException('User not exists');
@@ -70,7 +70,11 @@ class AuthManagerDefault implements AuthManager
         return $userSession;
     }
 
-    public function isLogged(User $user)
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function isLogged(User $user):bool
     {
         $userSession = $this->userSessionRepository->getByUser($user);
 

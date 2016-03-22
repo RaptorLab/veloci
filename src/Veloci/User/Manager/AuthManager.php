@@ -19,10 +19,16 @@ interface AuthManager
      *
      * @return UserSession
      */
-    public function login (User $user);
+    public function login (User $user):UserSession;
 
     /**
      * @param UserSession $userSession
      */
     public function logout (UserSession $userSession);
+
+    /**
+     * @param User $user
+     * @return bool
+     */
+    public function isLogged(User $user):bool;
 }

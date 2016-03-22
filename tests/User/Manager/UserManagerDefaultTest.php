@@ -23,55 +23,77 @@ class UserManagerDefaultTest extends \PHPUnit_Framework_TestCase
      */
     public function shouldSignup()
     {
-//        \PHPUnit_Framework_Assert::markTestSkipped('To implements');
         $userRepository = $this->mockUserRepository();
-        $user           = $userRepository->create();
+        $user           = $this->mockUser(1);
+        $manager        = new UserManagerDefault($userRepository);
 
-        $manager = new UserManagerDefault(
-            $userRepository
-        );
+        $userRepository->shouldReceive('save')->with($user);
 
         $manager->signup($user);
-
-        static::assertTrue($userRepository->exists($user));
-
-        static::assertEquals($user, $userRepository->get($user->getId()));
     }
 
     /**
-     * @return Mockery\MockInterface
+     * @test
      */
-    private function mockUserSessionManager()
+    public function shouldCreate()
     {
+        $userRepository = $this->mockUserRepository();
+        $manager        = new UserManagerDefault($userRepository);
+
+        $userRepository->shouldReceive('create');
+
+        $manager->create();
     }
 
     /**
-     * @return UserRepository
+     * @test
+     */
+    public function shouldEnable()
+    {
+        $userRepository = $this->mockUserRepository();
+        $user           = $this->mockUser(1);
+        $manager        = new UserManagerDefault($userRepository);
+
+        $userRepository->shouldReceive('save')->with($user);
+        $user->shouldReceive('enable')->once()->withNoArgs();
+
+        $manager->enable($user);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldDisable()
+    {
+        $userRepository = $this->mockUserRepository();
+        $user           = $this->mockUser(1);
+        $manager        = new UserManagerDefault($userRepository);
+
+        $userRepository->shouldReceive('save')->once()->with($user);
+        $user->shouldReceive('disable')->once()->withNoArgs();
+
+        $manager->disable($user);
+    }
+
+    /**
+     * @test
+     */
+    public function shouldExists() {
+        $userRepository = $this->mockUserRepository();
+        $user           = $this->mockUser(1);
+        $manager        = new UserManagerDefault($userRepository);
+
+        $userRepository->shouldReceive('exists')->once()->with($user);
+
+        $manager->exists($user);
+    }
+
+    /**
+     * @return UserRepository | Mockery\MockInterface
      */
     private function mockUserRepository():UserRepository
     {
-//        $mock = Mockery::mock(UserRepository::class);
-//
-//        return $mock;
-
-        $userFactory = $this->mockUserFactory();
-
-        return new InMemoryUserRepository($userFactory);
-    }
-
-    /**
-     * @return Mockery\MockInterface|UserFactory
-     */
-    private function mockUserFactory():UserFactory
-    {
-        $mock = Mockery::mock(UserFactory::class);
-
-        $mock->shouldReceive('create')
-            ->andReturn(
-                $this->mockUser(uniqid('user_', true))
-            );
-
-        return $mock;
+        return Mockery::mock(UserRepository::class);
     }
 
     /**
