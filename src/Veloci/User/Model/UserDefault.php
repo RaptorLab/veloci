@@ -4,6 +4,7 @@ namespace Veloci\User\Model;
 
 use DateTime;
 
+use Veloci\Core\Helper\Metadata\ObjectMetadata;
 use Veloci\Core\Model\DateableModel;
 use Veloci\Core\Model\RichEntityModel;
 use Veloci\User\User;
@@ -31,7 +32,7 @@ class UserDefault extends RichEntityModel implements User
     {
         $this->createdAt = new DateTime();
         $this->updatedAt = new DateTime();
-        $this->role      = new UserRoleDefault();
+        $this->role      = new UserRoleDefault('user');
     }
 
     /**
@@ -63,5 +64,15 @@ class UserDefault extends RichEntityModel implements User
     public function disable()
     {
         $this->enabled = false;
+    }
+
+    static public function getMetadata():ObjectMetadata
+    {
+        $metadata = parent::getMetadata();
+
+        $metadata->getProperty('createdAt')->setReadOnly(true);
+        $metadata->getProperty('updatedAt')->setReadOnly(true);
+
+        return $metadata;
     }
 }

@@ -42,5 +42,4 @@ abstract class RichEntityModel implements EntityModel
 
         return $metadata;
     }
-
 }
