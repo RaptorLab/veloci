@@ -27,12 +27,12 @@ class PropertyMetadata
     private $builtIn;
 
     /** @var bool */
-    private $nullable;
+    private $nullable = false;
 
     /** @var string */
     private $name;
 
-    /** @var bool  */
+    /** @var bool */
     private $primaryKey = false;
 
 

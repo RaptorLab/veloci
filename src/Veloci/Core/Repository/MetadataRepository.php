@@ -10,6 +10,7 @@ namespace Veloci\Core\Repository;
 
 
 use Veloci\Core\Helper\Metadata\ObjectMetadata;
+use Veloci\Core\Model\RichEntityModel;
 
 
 interface MetadataRepository

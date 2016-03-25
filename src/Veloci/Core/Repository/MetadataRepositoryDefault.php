@@ -9,7 +9,10 @@
 namespace Veloci\Core\Repository;
 
 use Veloci\Core\Helper\Metadata\ObjectMetadata;
+use Veloci\Core\Helper\Metadata\PropertyMetadata;
 use Veloci\Core\Model\MetadataAware;
+use Veloci\Core\Model\RichEntityModel;
+use Veloci\User\Exception\ValidationException;
 
 class MetadataRepositoryDefault implements MetadataRepository
 {
@@ -49,7 +52,7 @@ class MetadataRepositoryDefault implements MetadataRepository
         return $metadata;
     }
 
-    private function getClassName($class)
+    private function getClassName($class):string 
     {
         return is_string($class) ? $class : get_class($class);
     }

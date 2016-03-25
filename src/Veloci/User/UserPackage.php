@@ -10,6 +10,8 @@ namespace Veloci\User;
 
 
 use DateTime;
+use Veloci\Core\Helper\Metadata\ModelValidator;
+use Veloci\Core\Helper\Metadata\ModelValidatorDefault;
 use Veloci\Core\Helper\Serializer\ModelSerializer;
 use Veloci\Core\Helper\Serializer\ModelSerializerDefault;
 use Veloci\Core\Helper\Serializer\SerializationStrategyRepository;
@@ -77,10 +79,12 @@ class UserPackage extends Package
 
             return $strategyRepository;
         });
+
         $this->container->registerClass(MetadataRepository::class, function () {
             return new MetadataRepositoryDefault(new InMemoryKeyValueStore());
         });
 
+        $this->container->registerClass(ModelValidator::class, ModelValidatorDefault::class);
 
         // Repositories
         $this->registerRepository(RepositoryType::IN_MEMORY, UserRepository::class, InMemoryUserRepository::class);

@@ -96,6 +96,18 @@ class ObjectMetadata
         $property->setValue($object, $value);
     }
 
+    /**
+     * @param $object
+     * @param string $name
+     */
+    public function getValue($object, string $name)
+    {
+        $property = $this->reflectionClass->getProperty($name);
+        $property->setAccessible(true);
+
+        return $property->getValue($object);
+    }
+
     public function __wakeup()
     {
         $this->reflectionClass = new ReflectionClass($this->type);

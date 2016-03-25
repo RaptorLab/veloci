@@ -2,6 +2,8 @@
 
 namespace Veloci\User\Manager;
 
+use Veloci\Core\Helper\Metadata\ModelValidator;
+use Veloci\Core\Repository\MetadataRepository;
 use Veloci\User\Repository\UserRepository;
 use Veloci\User\User;
 
@@ -13,12 +15,19 @@ class UserManagerDefault implements UserManager
     private $userRepository;
 
     /**
+     * @var ModelValidator
+     */
+    private $modelValidator;
+
+    /**
      *
      * @param UserRepository $userRepository
+     * @param MetadataRepository $metadataRepository
      */
-    public function __construct(UserRepository $userRepository)
+    public function __construct(UserRepository $userRepository, ModelValidator $modelValidator)
     {
         $this->userRepository = $userRepository;
+        $this->modelValidator = $modelValidator;
     }
 
     /**
@@ -27,6 +36,8 @@ class UserManagerDefault implements UserManager
      */
     public function signup(User $user)
     {
+        $this->modelValidator->validate($user);
+
         $this->userRepository->save($user);
     }
 
