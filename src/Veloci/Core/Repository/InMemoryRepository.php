@@ -10,6 +10,7 @@ namespace Veloci\Core\Repository;
 
 use Closure;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Criteria;
 use Veloci\Core\Helper\Resultset\Resultset;
 use Veloci\Core\Model\EntityModel;
 
@@ -52,7 +53,7 @@ abstract class InMemoryRepository implements EntityRepository
      *
      * @return Resultset
      */
-    public function getAll():Resultset
+    public function getAll(Criteria $criteria = null):Resultset
     {
         return $this->repository->toArray();
     }

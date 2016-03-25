@@ -43,4 +43,13 @@ class MongoDbUserRepository extends MongoDbRepository implements UserRepository
     {
         return 'users';
     }
+
+    /**
+     * @param string $username
+     * @return bool
+     */
+    public function usernameAlreadyExists(string $username):bool
+    {
+//        $this->getAll()
+    }
 }

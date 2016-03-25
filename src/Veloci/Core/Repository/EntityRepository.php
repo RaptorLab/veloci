@@ -8,6 +8,7 @@
 
 namespace Veloci\Core\Repository;
 
+use Doctrine\Common\Collections\Criteria;
 use Veloci\Core\Helper\Resultset\Resultset;
 use Veloci\Core\Model\EntityModel;
 
@@ -37,9 +38,11 @@ interface EntityRepository {
     public function delete(EntityModel $model);
 
     /**
+     * @param Criteria $criteria
+     * 
      * @return Resultset A collection of entities
      */
-    public function getAll():Resultset;
+    public function getAll(Criteria $criteria = null):Resultset;
 
     /**
      * @param EntityModel $model

@@ -36,6 +36,8 @@ class UserManagerDefault implements UserManager
      */
     public function signup(User $user)
     {
+        $this->userRepository->usernameAlreadyExists($user->getUsername());
+        
         $this->modelValidator->validate($user);
 
         $this->userRepository->save($user);

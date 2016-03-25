@@ -9,6 +9,12 @@ namespace Veloci\Core\Repository;
  * Time: 14:52
  */
 
+use Doctrine\Common\Collections\Criteria;
+use Doctrine\Common\Collections\Expr\ClosureExpressionVisitor;
+use Doctrine\Common\Collections\Expr\Comparison;
+use Doctrine\Common\Collections\Expr\CompositeExpression;
+use Doctrine\Common\Collections\Expr\ExpressionVisitor;
+use Doctrine\Common\Collections\Expr\Value;
 use Veloci\Core\Helper\Resultset\Filter\MongoIdResultsetFilter;
 use Veloci\Core\Helper\Resultset\MongodbResultset;
 use Veloci\Core\Helper\Resultset\Resultset;
@@ -104,7 +110,7 @@ abstract class MongoDbRepository implements EntityRepository
     /**
      * @return Resultset A collection of entities
      */
-    public function getAll():Resultset
+    public function getAll(Criteria $criteria = null):Resultset
     {
         $collection = $this->getCollectionInstance();
 

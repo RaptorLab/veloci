@@ -8,9 +8,6 @@
 
 namespace Veloci\Core\Helper\Metadata\Domain;
 
-
-use Veloci\Core\Helper\bool;
-
 abstract class AbstractDomain implements Domain
 {
 

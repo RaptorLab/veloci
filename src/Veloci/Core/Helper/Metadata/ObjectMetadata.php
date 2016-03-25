@@ -104,7 +104,7 @@ final class ObjectMetadata
      *
      * @return mixed
      */
-    public function getValue(object $object, string $name)
+    public function getValue($object, string $name)
     {
         $property = $this->reflectionClass->getProperty($name);
         $property->setAccessible(true);
@@ -140,7 +140,7 @@ final class ObjectMetadata
             }
         }
 
-        if (count($errors) > 1) {
+        if (count($errors) > 0) {
             throw new ValidationException($errors);
         }
     }

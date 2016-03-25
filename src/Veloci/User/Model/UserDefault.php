@@ -4,6 +4,7 @@ namespace Veloci\User\Model;
 
 use DateTime;
 
+use Veloci\Core\Helper\Metadata\Domain\StringDomain;
 use Veloci\Core\Helper\Metadata\ObjectMetadata;
 use Veloci\Core\Model\DateableModel;
 use Veloci\Core\Model\RichEntityModel;
@@ -13,6 +14,11 @@ use Veloci\User\UserRole;
 class UserDefault extends RichEntityModel implements User
 {
     use DateableModel;
+
+    /**
+     * @var string
+     */
+    private $username;
 
     /**
      * @var bool
@@ -34,6 +40,23 @@ class UserDefault extends RichEntityModel implements User
         $this->updatedAt = new DateTime();
         $this->role      = new UserRoleDefault('user');
     }
+
+    /**
+     * @return string
+     */
+    public function getUsername():string
+    {
+        return $this->username;
+    }
+
+    /**
+     * @param mixed $username
+     */
+    public function setUsername($username)
+    {
+        $this->username = $username;
+    }
+
 
     /**
      * @return bool
@@ -69,6 +92,11 @@ class UserDefault extends RichEntityModel implements User
     static public function setCustomMetadata(ObjectMetadata $metadata)
     {
         parent::setCustomMetadata($metadata);
+
+
+        $metadata->getProperty('username')
+            ->setDomain(new StringDomain('/^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/'))
+            ->setNullable(false);
 
         $metadata->getProperty('createdAt')->setReadOnly(true);
         $metadata->getProperty('updatedAt')->setReadOnly(true);

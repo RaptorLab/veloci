@@ -33,7 +33,7 @@ final class ModelAnalyzerDefault implements ModelAnalyzer
      */
     public function analyze(string $object):ObjectMetadata
     {
-        if (!is_a($object, EntityModel::class)) {
+        if (!is_a($object, EntityModel::class, true)) {
             throw new \InvalidArgumentException('Expected ' . EntityModel::class . ', found ' . $object);
         }
 
@@ -72,6 +72,8 @@ final class ModelAnalyzerDefault implements ModelAnalyzer
         $propertyInfo->setReadOnly(!$objectMetadata->hasMethod($setter));
         $propertyInfo->setGetter($method->getName());
         $propertyInfo->setSetter($setter);
+
+        return $propertyInfo;
     }
 
     private function setReturnTypeInfo(PropertyMetadata $propertyInfo, ReflectionMethod $method)
@@ -95,7 +97,7 @@ final class ModelAnalyzerDefault implements ModelAnalyzer
 
         $domainInfo = $this->parseDomainTypeDocBlock($docComment);
 
-        $domain = $this->domainResolver->resolveDomain($returnType, $domainInfo);
+        $domain = $this->domainResolver->resolveDomain($propertyInfo->getType(), $domainInfo);
 
         if ($domain) {
             $propertyInfo->setDomain($domain);

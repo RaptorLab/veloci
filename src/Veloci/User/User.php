@@ -10,6 +10,8 @@ use Veloci\Core\Model\EntityModel;
  * @author christian
  */
 interface User extends EntityModel {
+    public function getUsername():string;
+
     public function isEnabled();
 
     public function enable();

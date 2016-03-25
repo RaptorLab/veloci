@@ -38,8 +38,11 @@ class PropertyMetadata implements Validable
     /** @var bool */
     private $primaryKey = false;
 
-    /** @var Domain|null  */
+    /** @var Domain|null */
     private $domain = null;
+
+    /** @var string */
+    private $lastError = '';
 
 
     /**
@@ -198,13 +201,26 @@ class PropertyMetadata implements Validable
         return $this;
     }
 
-    public function validate($value)
+    public function validate($value):bool
     {
+        if (!$this->isNullable() && is_null($value)) {
+            $this->lastError = 'required';
+            return false;
+        }
 
+        if ($this->domain !== null) {
+            if (!$this->domain->validate($value)) {
+                $this->lastError = $this->domain->formatError($value);
+
+                return false;
+            }
+        }
+
+        return true;
     }
 
     public function formatError($value):string
     {
-        // TODO: Implement formatError() method.
+        return $this->lastError;
     }
 }

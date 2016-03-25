@@ -30,7 +30,7 @@ class DomainResolverDefault implements DomainResolver
 
     public function setDomain(string $type, string $class)
     {
-        if (!is_a($class, Domain::class)) {
+        if (!is_a($class, Domain::class, true)) {
             throw new \InvalidArgumentException('Expected ' . Domain::class . '. ' . $class . ' found');
         }
 

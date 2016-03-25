@@ -34,21 +34,4 @@ class ModelValidatorDefault implements ModelValidator
 
         $metadata->validate($model);
     }
-
-    /**
-     * @param ObjectMetadata $object
-     * @param PropertyMetadata $property
-     * @param EntityModel $model
-     * @throws ValidationException
-     */
-    private function nullableValidator(ObjectMetadata $object, PropertyMetadata $property, EntityModel $model)
-    {
-        if (!$property->isNullable()) {
-            $value = $object->getValue($model, $property->getName());
-
-            if ($value === null) {
-                throw new ValidationException($property->getName() . ' is required');
-            }
-        }
-    }
 }
