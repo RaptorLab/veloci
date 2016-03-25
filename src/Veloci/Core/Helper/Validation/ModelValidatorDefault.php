@@ -2,11 +2,12 @@
 /**
  * Created by PhpStorm.
  * User: christian
- * Date: 24/03/16
- * Time: 21:43
+ * Date: 25/03/16
+ * Time: 12:42
  */
 
-namespace Veloci\Core\Helper\Metadata;
+namespace Veloci\Core\Helper\Validation;
+
 
 use Veloci\Core\Model\EntityModel;
 use Veloci\Core\Repository\MetadataRepository;
@@ -14,6 +15,7 @@ use Veloci\User\Exception\ValidationException;
 
 class ModelValidatorDefault implements ModelValidator
 {
+
     /**
      * @var MetadataRepository
      */
@@ -33,22 +35,5 @@ class ModelValidatorDefault implements ModelValidator
         $metadata = $this->metadataRepository->getMetadata($model);
 
         $metadata->validate($model);
-    }
-
-    /**
-     * @param ObjectMetadata $object
-     * @param PropertyMetadata $property
-     * @param EntityModel $model
-     * @throws ValidationException
-     */
-    private function nullableValidator(ObjectMetadata $object, PropertyMetadata $property, EntityModel $model)
-    {
-        if (!$property->isNullable()) {
-            $value = $object->getValue($model, $property->getName());
-
-            if ($value === null) {
-                throw new ValidationException($property->getName() . ' is required');
-            }
-        }
     }
 }

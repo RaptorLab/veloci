@@ -16,4 +16,8 @@ interface ValidationRule
      * @throws ValidationException
      */
     public function validate($value);
+
+    public function getType ();
+
+    public function getMessage($field);
 }

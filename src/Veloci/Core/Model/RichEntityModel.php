@@ -8,8 +8,6 @@
 
 namespace Veloci\Core\Model;
 
-
-use Veloci\Core\Helper\Metadata\ModelAnalyzer;
 use Veloci\Core\Helper\Metadata\ObjectMetadata;
 
 abstract class RichEntityModel implements EntityModel
@@ -22,7 +20,7 @@ abstract class RichEntityModel implements EntityModel
     protected $id;
 
     /**
-     * @return int
+     * @return mixed
      */
     public function getId()
     {
@@ -34,12 +32,8 @@ abstract class RichEntityModel implements EntityModel
      *
      * @throws \RuntimeException
      */
-    public static function getMetadata():ObjectMetadata
+    public static function setCustomMetadata(ObjectMetadata $metadata)
     {
-        $metadata = ModelAnalyzer::analyze(static::class);
-
         $metadata->getProperty('id')->setPrimaryKey(true);
-
-        return $metadata;
     }
 }

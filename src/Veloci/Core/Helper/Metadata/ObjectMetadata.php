@@ -10,9 +10,11 @@ namespace Veloci\Core\Helper\Metadata;
 
 
 use ReflectionClass;
+use Veloci\Core\Model\EntityModel;
+use Veloci\User\Exception\ValidationException;
 
 
-class ObjectMetadata
+final class ObjectMetadata
 {
     /** @var PropertyMetadata[] */
     private $properties = [];
@@ -99,8 +101,10 @@ class ObjectMetadata
     /**
      * @param $object
      * @param string $name
+     *
+     * @return mixed
      */
-    public function getValue($object, string $name)
+    public function getValue(object $object, string $name)
     {
         $property = $this->reflectionClass->getProperty($name);
         $property->setAccessible(true);
@@ -121,5 +125,23 @@ class ObjectMetadata
     public function hasMethod($name)
     {
         return $this->reflectionClass->hasMethod($name);
+    }
+
+    public function validate(EntityModel $model)
+    {
+        $errors = [];
+
+        foreach ($this->properties as $name => $property) {
+
+            $value = $this->getValue($model, $name);
+
+            if (!$property->validate($value)) {
+                $errors[$name] = $property->formatError($value);
+            }
+        }
+
+        if (count($errors) > 1) {
+            throw new ValidationException($errors);
+        }
     }
 }

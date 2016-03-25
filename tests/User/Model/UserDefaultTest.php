@@ -37,7 +37,7 @@ class UserDefaultTest extends \PHPUnit_Framework_TestCase
         $user->disable();
         PHPUnit::assertFalse($user->isEnabled());
 
-        $metadata = $user::getMetadata();
+        $metadata = $user::getCustomMetadata();
 
         PHPUnit::assertInstanceOf(ObjectMetadata::class, $metadata);
         PHPUnit::assertTrue($metadata->getProperty('createdAt')->isReadOnly());

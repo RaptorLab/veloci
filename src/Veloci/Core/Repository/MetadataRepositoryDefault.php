@@ -8,11 +8,9 @@
 
 namespace Veloci\Core\Repository;
 
+use Veloci\Core\Helper\ClassHelper;
 use Veloci\Core\Helper\Metadata\ObjectMetadata;
-use Veloci\Core\Helper\Metadata\PropertyMetadata;
 use Veloci\Core\Model\MetadataAware;
-use Veloci\Core\Model\RichEntityModel;
-use Veloci\User\Exception\ValidationException;
 
 class MetadataRepositoryDefault implements MetadataRepository
 {
@@ -39,21 +37,16 @@ class MetadataRepositoryDefault implements MetadataRepository
         }
 
         /** @var MetadataAware|string $className */
-        $className = $this->getClassName($class);
+        $className = ClassHelper::getClassName($class);
 
         $metadata = $this->storage->get($className);
 
         if (!$metadata) {
-            $metadata = $className::getMetadata();
+            $metadata = $className::getCustomMetadata();
 
             $this->storage->set($className, $metadata);
         }
 
         return $metadata;
-    }
-
-    private function getClassName($class):string 
-    {
-        return is_string($class) ? $class : get_class($class);
     }
 }

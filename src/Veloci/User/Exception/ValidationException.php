@@ -13,6 +13,28 @@ use Exception;
 
 class ValidationException extends Exception
 {
-    public $name;
-    public $type;
+    /**
+     * @var array
+     */
+    private $errors;
+
+    /**
+     * ValidationException constructor.
+     *
+     * @param array $errors
+     */
+    public function __construct(array $errors)
+    {
+        parent::__construct('The model is not valid');
+
+        $this->errors = $errors;
+    }
+
+    /**
+     * @return array
+     */
+    public function getErrors():array
+    {
+        return $this->errors;
+    }
 }

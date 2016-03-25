@@ -66,13 +66,11 @@ class UserDefault extends RichEntityModel implements User
         $this->enabled = false;
     }
 
-    static public function getMetadata():ObjectMetadata
+    static public function setCustomMetadata(ObjectMetadata $metadata)
     {
-        $metadata = parent::getMetadata();
+        parent::setCustomMetadata($metadata);
 
         $metadata->getProperty('createdAt')->setReadOnly(true);
         $metadata->getProperty('updatedAt')->setReadOnly(true);
-
-        return $metadata;
     }
 }

@@ -9,7 +9,10 @@
 namespace Veloci\Core\Helper\Metadata;
 
 
-class PropertyMetadata
+use Veloci\Core\Helper\Metadata\Domain\Domain;
+use Veloci\Core\Helper\Validable;
+
+class PropertyMetadata implements Validable
 {
     /** @var bool */
     private $readOnly;
@@ -35,6 +38,9 @@ class PropertyMetadata
     /** @var bool */
     private $primaryKey = false;
 
+    /** @var Domain|null  */
+    private $domain = null;
+
 
     /**
      * @return boolean
@@ -50,6 +56,8 @@ class PropertyMetadata
     public function setReadOnly(bool $readOnly)
     {
         $this->readOnly = $readOnly;
+
+        return $this;
     }
 
     /**
@@ -66,6 +74,8 @@ class PropertyMetadata
     public function setType(string $type)
     {
         $this->type = $type;
+
+        return $this;
     }
 
     /**
@@ -82,6 +92,8 @@ class PropertyMetadata
     public function setGetter(string $getter)
     {
         $this->getter = $getter;
+
+        return $this;
     }
 
     /**
@@ -98,6 +110,8 @@ class PropertyMetadata
     public function setBuiltIn(bool $builtIn)
     {
         $this->builtIn = $builtIn;
+
+        return $this;
     }
 
     /**
@@ -109,11 +123,13 @@ class PropertyMetadata
     }
 
     /**
-     * @param boolean $nullable
+     * @param bool $nullable
      */
     public function setNullable(bool $nullable)
     {
         $this->nullable = $nullable;
+
+        return $this;
     }
 
     public function getName():string
@@ -124,22 +140,26 @@ class PropertyMetadata
     public function setName(string $name)
     {
         $this->name = $name;
+
+        return $this;
     }
 
     /**
      * @return boolean
      */
-    public function isPrimaryKey()
+    public function isPrimaryKey():bool
     {
         return $this->primaryKey;
     }
 
     /**
-     * @param boolean $primaryKey
+     * @param bool $primaryKey
      */
-    public function setPrimaryKey($primaryKey)
+    public function setPrimaryKey(bool $primaryKey)
     {
         $this->primaryKey = $primaryKey;
+
+        return $this;
     }
 
     /**
@@ -153,8 +173,38 @@ class PropertyMetadata
     /**
      * @param string $setter
      */
-    public function setSetter($setter)
+    public function setSetter(string $setter)
     {
         $this->setter = $setter;
+
+        return $this;
+    }
+
+    /**
+     * @return null|Domain
+     */
+    public function getDomain()
+    {
+        return $this->domain;
+    }
+
+    /**
+     * @param null|Domain $domain
+     */
+    public function setDomain(Domain $domain)
+    {
+        $this->domain = $domain;
+
+        return $this;
+    }
+
+    public function validate($value)
+    {
+
+    }
+
+    public function formatError($value):string
+    {
+        // TODO: Implement formatError() method.
     }
 }
