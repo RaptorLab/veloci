@@ -10,11 +10,6 @@ namespace Veloci\Core\Repository;
  */
 
 use Doctrine\Common\Collections\Criteria;
-use Doctrine\Common\Collections\Expr\ClosureExpressionVisitor;
-use Doctrine\Common\Collections\Expr\Comparison;
-use Doctrine\Common\Collections\Expr\CompositeExpression;
-use Doctrine\Common\Collections\Expr\ExpressionVisitor;
-use Doctrine\Common\Collections\Expr\Value;
 use Veloci\Core\Helper\Resultset\Filter\MongoIdResultsetFilter;
 use Veloci\Core\Helper\Resultset\MongodbResultset;
 use Veloci\Core\Helper\Resultset\Resultset;
@@ -132,15 +127,14 @@ abstract class MongoDbRepository implements EntityRepository
      */
     public function exists(EntityModel $model):bool
     {
-        // TODO: Implement exists() method.
+        $result = $this->get($model->getId());
+
+        return $result !== null;
     }
 
     /**
      * @param \Veloci\Core\Model\EntityModel $model
-     * @return boolean
+     * @return bool
      */
-    public function accept(EntityModel $model):bool
-    {
-        // TODO: Implement accept() method.
-    }
+    abstract public function accept(EntityModel $model):bool;
 }

@@ -7,8 +7,10 @@ use Veloci\Core\Helper\Serializer\ModelSerializer;
 use Veloci\Core\Model\EntityModel;
 use Veloci\Core\Repository\MongoDbManager;
 use Veloci\Core\Repository\MongoDbRepository;
-use Veloci\User\Factory\UserFactory;
+use Veloci\User\Factory\UserSessionFactory;
 use Veloci\User\User;
+use Veloci\User\UserSession;
+use Veloci\User\UserToken;
 
 /**
  * Created by PhpStorm.
@@ -16,10 +18,10 @@ use Veloci\User\User;
  * Date: 09/03/16
  * Time: 15:04
  */
-class MongoDbUserRepository extends MongoDbRepository implements UserRepository
+class MongoDbUserSessionRepository extends MongoDbRepository implements UserSessionRepository
 {
     /**
-     * @var UserFactory
+     * @var UserSessionFactory
      */
     private $factory;
     /**
@@ -27,7 +29,7 @@ class MongoDbUserRepository extends MongoDbRepository implements UserRepository
      */
     private $serializer;
 
-    public function __construct(MongoDbManager $db, ModelSerializer $serializer, UserFactory $factory)
+    public function __construct(MongoDbManager $db, ModelSerializer $serializer, UserSessionFactory $factory)
     {
         parent::__construct($db, $serializer);
 
@@ -36,11 +38,11 @@ class MongoDbUserRepository extends MongoDbRepository implements UserRepository
     }
 
     /**
-     * @return User
+     * @return UserSession
      */
-    public function create(array $data = []):User
+    public function create(User $user, UserToken $userToken):UserSession
     {
-        return $this->factory->create($data);
+        return $this->factory->create($user, $userToken);
     }
 
     /**
@@ -48,18 +50,7 @@ class MongoDbUserRepository extends MongoDbRepository implements UserRepository
      */
     protected function getCollectionName():string
     {
-        return 'users';
-    }
-
-    /**
-     * @param string $username
-     * @return bool
-     */
-    public function usernameAlreadyExists(string $username):bool
-    {
-        $user = $this->getUserByUsername($username);
-
-        return $user !== null;
+        return 'user_sessions';
     }
 
     public function serialize(EntityModel $model):array
@@ -69,24 +60,24 @@ class MongoDbUserRepository extends MongoDbRepository implements UserRepository
 
     public function deserialize(array $data):EntityModel
     {
-        return $this->factory->create($data);
+        //return $this->serializer->hydrate($data, )
     }
 
     /**
-     * @param string $username
-     * @return User | null
+     * @param User $user
+     * @return UserSession
      */
-    public function getUserByUsername(string $username)
+    public function getByUser(User $user)
     {
         $criteria = Criteria::create();
         $expr     = Criteria::expr();
 
-        $criteria->where($expr->eq('username', $username));
+        $criteria->where($expr->eq('userId', $user->getId()));
 
-        $users = $this->getAll($criteria)->toArray();
+        $sessions = $this->getAll($criteria)->toArray();
 
-        if (count($users) > 0) {
-            return $this->deserialize($users[0]);
+        if (count($sessions) > 0) {
+            return $sessions[0];
         }
 
         return null;
@@ -98,6 +89,6 @@ class MongoDbUserRepository extends MongoDbRepository implements UserRepository
      */
     public function accept(EntityModel $model):bool
     {
-        return $model instanceof User;
+        return $model instanceof UserSession;
     }
 }

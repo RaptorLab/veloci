@@ -73,7 +73,7 @@ class UserManagerDefault implements UserManager
      * @param User $user
      * @return boolean
      */
-    public function exists(User $user)
+    public function exists(User $user):bool
     {
         return $this->userRepository->exists($user);
     }
@@ -81,8 +81,8 @@ class UserManagerDefault implements UserManager
     /**
      * @return User
      */
-    public function create()
+    public function create(array $data = []):User
     {
-        return $this->userRepository->create();
+        return $this->userRepository->create($data);
     }
 }

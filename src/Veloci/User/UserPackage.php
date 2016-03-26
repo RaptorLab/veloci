@@ -10,6 +10,7 @@ namespace Veloci\User;
 
 
 use DateTime;
+use Veloci\Core\Helper\DependencyInjectionContainer;
 use Veloci\Core\Helper\Metadata\Domain\DomainResolver;
 use Veloci\Core\Helper\Metadata\Domain\DomainResolverDefault;
 use Veloci\Core\Helper\Metadata\ModelAnalyzer;
@@ -31,6 +32,8 @@ use Veloci\Core\Repository\MongoDbManagerDefault;
 use Veloci\Core\Repository\RepositoryType;
 use Veloci\User\Factory\UserFactory;
 use Veloci\User\Factory\UserFactoryDefault;
+use Veloci\User\Factory\UserResolverFactory;
+use Veloci\User\Factory\UserResolverFactoryDefault;
 use Veloci\User\Factory\UserSessionFactory;
 use Veloci\User\Factory\UserSessionFactoryDefault;
 use Veloci\User\Factory\UserTokenFactory;
@@ -46,8 +49,10 @@ use Veloci\User\Model\UserTokenDefault;
 use Veloci\User\Repository\InMemoryUserRepository;
 use Veloci\User\Repository\InMemoryUserSessionRepository;
 use Veloci\User\Repository\MongoDbUserRepository;
+use Veloci\User\Repository\MongoDbUserSessionRepository;
 use Veloci\User\Repository\UserRepository;
 use Veloci\User\Repository\UserSessionRepository;
+use Veloci\User\Resolver\StandardUserResolver;
 
 class UserPackage extends Package
 {
@@ -67,6 +72,13 @@ class UserPackage extends Package
         $this->container->registerClass(UserFactory::class, UserFactoryDefault::class);
         $this->container->registerClass(UserSessionFactory::class, UserSessionFactoryDefault::class);
         $this->container->registerClass(UserTokenFactory::class, UserTokenFactoryDefault::class);
+        $this->container->registerClass(UserResolverFactory::class, function ($app) {
+            $userResolverFactory = new UserResolverFactoryDefault(new InMemoryKeyValueStore(), $app[DependencyInjectionContainer::class]);
+
+            $userResolverFactory->registerUserResolver(StandardUserResolver::class);
+
+            return $userResolverFactory;
+        });
 
         // Managers
         $this->container->registerClass(UserManager::class, UserManagerDefault::class);
@@ -101,5 +113,6 @@ class UserPackage extends Package
         $this->registerRepository(RepositoryType::IN_MEMORY, UserSessionRepository::class, InMemoryUserSessionRepository::class);
 
         $this->registerRepository(RepositoryType::MONGODB, UserRepository::class, MongoDbUserRepository::class);
+        $this->registerRepository(RepositoryType::MONGODB, UserSessionRepository::class, MongoDbUserSessionRepository::class);
     }
 }

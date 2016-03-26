@@ -110,7 +110,7 @@ class MongodbResultset implements Resultset
         $result = [];
 
         foreach ($this as $key => $value) {
-            $result[] = [$key => $value];
+            $result[$key] = $value;
         }
 
         return $result;

@@ -48,8 +48,10 @@ abstract class ContainerAwareModelFactory implements ModelFactory
         if ($model === null) {
             throw new \RuntimeException ('Cannot create a new instance of ' . $this->className);
         }
-
-        $this->serializer->hydrate($data, $model);
+        
+        if (count($data) > 0) {
+            $this->serializer->hydrate($data, $model);
+        }
 
         return $model;
 

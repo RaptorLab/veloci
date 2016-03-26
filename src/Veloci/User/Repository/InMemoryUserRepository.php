@@ -8,6 +8,7 @@
 
 namespace Veloci\User\Repository;
 
+use Veloci\Core\Helper\Serializer\ModelSerializer;
 use Veloci\Core\Model\EntityModel;
 use Veloci\Core\Repository\InMemoryRepository;
 use Veloci\User\Factory\UserFactory;
@@ -24,16 +25,21 @@ class InMemoryUserRepository extends InMemoryRepository implements UserRepositor
      * @var UserFactory
      */
     private $userFactory;
+    /**
+     * @var ModelSerializer
+     */
+    private $modelSerializer;
 
     /**
      * InMemoryUserRepository constructor.
      * @param UserFactory $userFactory
      */
-    public function __construct(UserFactory $userFactory)
+    public function __construct(UserFactory $userFactory, ModelSerializer $modelSerializer)
     {
         parent::__construct();
 
-        $this->userFactory = $userFactory;
+        $this->userFactory     = $userFactory;
+        $this->modelSerializer = $modelSerializer;
     }
 
     public function accept(EntityModel $model):bool
@@ -44,9 +50,9 @@ class InMemoryUserRepository extends InMemoryRepository implements UserRepositor
     /**
      * @return User
      */
-    public function create():EntityModel
+    public function create(array $data = []):User
     {
-        return $this->userFactory->create();
+        return $this->userFactory->create($data);
     }
 
     /**
@@ -55,16 +61,36 @@ class InMemoryUserRepository extends InMemoryRepository implements UserRepositor
      */
     public function usernameAlreadyExists(string $username):bool
     {
+        $user = $this->getUserByUsername($username);
 
+        return $user !== null;
+    }
+
+    public function serialize(EntityModel $model):array
+    {
+        return $this->modelSerializer->serialize($model);
+    }
+
+    public function deserialize(array $data):EntityModel
+    {
+        return $model = $this->userFactory->create($data);
+    }
+
+    /**
+     * @param string $username
+     * @return User | null
+     */
+    public function getUserByUsername(string $username)
+    {
         $users = $this->getAll();
 
         /** @var User $user */
         foreach ($users as $user) {
             if ($user->getUsername() === $username) {
-                return true;
+                return $user;
             }
         }
 
-        return false;
+        return null;
     }
 }

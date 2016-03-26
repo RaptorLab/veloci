@@ -20,6 +20,12 @@ class UserDefault extends RichEntityModel implements User
      */
     protected $username;
 
+
+    /**
+     * @var string
+     */
+    protected $password;
+
     /**
      * @var bool
      */
@@ -55,6 +61,23 @@ class UserDefault extends RichEntityModel implements User
     public function setUsername($username)
     {
         $this->username = $username;
+    }
+
+
+    /**
+     * @return mixed
+     */
+    public function getPassword():string
+    {
+        return $this->password;
+    }
+
+    /**
+     * @param mixed $password
+     */
+    public function setPassword($password)
+    {
+        $this->password = $password;
     }
 
 
@@ -96,6 +119,11 @@ class UserDefault extends RichEntityModel implements User
 
         $metadata->getProperty('username')
             ->setDomain(new StringDomain('/^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/'))
+            ->setNullable(false);
+
+
+        $metadata->getProperty('password')
+            ->setDomain(new StringDomain('/^\w{4,}$/'))
             ->setNullable(false);
 
         $metadata->getProperty('createdAt')->setReadOnly(true);

@@ -19,7 +19,7 @@ interface UserManager {
     /**
      * @return User
      */
-    public function create();
+    public function create(array $data = []):User;
 
     /**
      * @param User $user
@@ -40,5 +40,5 @@ interface UserManager {
      * @param User $user
      * @return boolean
      */
-    public function exists(User $user);
+    public function exists(User $user):bool;
 }
