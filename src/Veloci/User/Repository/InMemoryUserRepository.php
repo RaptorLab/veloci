@@ -55,11 +55,12 @@ class InMemoryUserRepository extends InMemoryRepository implements UserRepositor
      */
     public function usernameAlreadyExists(string $username):bool
     {
+
         $users = $this->getAll();
 
         /** @var User $user */
         foreach ($users as $user) {
-            if($user->getUsername() === $username) {
+            if ($user->getUsername() === $username) {
                 return true;
             }
         }

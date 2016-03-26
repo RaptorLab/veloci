@@ -20,6 +20,7 @@ use Veloci\Core\Helper\Resultset\MongodbResultset;
 use Veloci\Core\Helper\Resultset\Resultset;
 use Veloci\Core\Helper\Serializer\ModelSerializer;
 use Veloci\Core\Model\EntityModel;
+use Veloci\Core\Repository\Criteria\MongoDbExpressionVisitor;
 
 
 abstract class MongoDbRepository implements EntityRepository
@@ -114,7 +115,11 @@ abstract class MongoDbRepository implements EntityRepository
     {
         $collection = $this->getCollectionInstance();
 
-        $users = new MongodbResultset($collection->find());
+        $query = ($criteria !== null)
+            ? $criteria->getWhereExpression()->visit(new MongoDbExpressionVisitor())
+            : [];
+
+        $users = new MongodbResultset($collection->find($query));
 
         $users->appendFilter(new MongoIdResultsetFilter());
 

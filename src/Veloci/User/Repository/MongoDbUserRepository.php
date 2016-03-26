@@ -2,6 +2,7 @@
 
 namespace Veloci\User\Repository;
 
+use Doctrine\Common\Collections\Criteria;
 use Veloci\Core\Helper\Serializer\ModelSerializer;
 use Veloci\Core\Repository\MongoDbManager;
 use Veloci\Core\Repository\MongoDbRepository;
@@ -50,6 +51,11 @@ class MongoDbUserRepository extends MongoDbRepository implements UserRepository
      */
     public function usernameAlreadyExists(string $username):bool
     {
-//        $this->getAll()
+        $criteria = Criteria::create();
+        $expr     = Criteria::expr();
+
+        $criteria->where($expr->eq('username', $username));
+
+        return $this->getAll($criteria);
     }
 }

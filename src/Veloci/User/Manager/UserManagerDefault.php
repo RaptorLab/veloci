@@ -18,7 +18,7 @@ class UserManagerDefault implements UserManager
      * @var ModelValidator
      */
     private $modelValidator;
-
+ 
     /**
      *
      * @param UserRepository $userRepository
