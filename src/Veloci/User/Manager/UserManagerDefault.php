@@ -4,6 +4,7 @@ namespace Veloci\User\Manager;
 
 use Veloci\Core\Helper\Metadata\ModelValidator;
 use Veloci\Core\Repository\MetadataRepository;
+use Veloci\User\Exception\ValidationException;
 use Veloci\User\Repository\UserRepository;
 use Veloci\User\User;
 
@@ -18,7 +19,7 @@ class UserManagerDefault implements UserManager
      * @var ModelValidator
      */
     private $modelValidator;
- 
+
     /**
      *
      * @param UserRepository $userRepository
@@ -33,11 +34,16 @@ class UserManagerDefault implements UserManager
     /**
      *
      * @param User $user
+     * @throws \Veloci\User\Exception\ValidationException
      */
     public function signup(User $user)
     {
-        $this->userRepository->usernameAlreadyExists($user->getUsername());
-        
+        if ($this->userRepository->usernameAlreadyExists($user->getUsername())) {
+            throw new ValidationException([
+                'username' => 'duplicated'
+            ]);
+        }
+
         $this->modelValidator->validate($user);
 
         $this->userRepository->save($user);

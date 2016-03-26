@@ -56,6 +56,8 @@ class MongoDbUserRepository extends MongoDbRepository implements UserRepository
 
         $criteria->where($expr->eq('username', $username));
 
-        return $this->getAll($criteria);
+        $users = $this->getAll($criteria)->toArray();
+
+        return count($users) > 0;
     }
 }

@@ -18,7 +18,7 @@ class UserDefault extends RichEntityModel implements User
     /**
      * @var string
      */
-    private $username;
+    protected $username;
 
     /**
      * @var bool
