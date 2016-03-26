@@ -21,9 +21,9 @@ interface ModelSerializer
 
     /**
      * @param array $data
-     * @param EntityModel $target
+     * @param string $targetClass
      * @param bool $fullHydration
      * @return EntityModel
      */
-    public function hydrate(array $data, EntityModel $target, $fullHydration = false):EntityModel;
+    public function hydrate(array $data, string $targetClass, $fullHydration = false):EntityModel;
 }

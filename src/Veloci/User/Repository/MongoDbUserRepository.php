@@ -69,7 +69,7 @@ class MongoDbUserRepository extends MongoDbRepository implements UserRepository
 
     public function deserialize(array $data):EntityModel
     {
-        return $this->factory->create($data);
+        return $this->factory->create($data, true);
     }
 
     /**

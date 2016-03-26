@@ -45,9 +45,11 @@ class ModelSerializerDefault implements ModelSerializer
         return $result;
     }
 
-    public function hydrate(array $data, EntityModel $target, $fullHydration = false):EntityModel
+    public function hydrate(array $data, string $targetClass, $fullHydration = false):EntityModel
     {
-        $objectMetadata = $this->metadataRepository->getMetadata($target);
+        $objectMetadata = $this->metadataRepository->getMetadata($targetClass);
+
+        $target = $objectMetadata->getReflectionClass()->newInstanceWithoutConstructor();
 //        $properties     = $objectMetadata->getProperties();
 
         foreach ($data as $key => $value) {

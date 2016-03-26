@@ -103,6 +103,10 @@ final class ModelAnalyzerDefault implements ModelAnalyzer
             $propertyInfo->setDomain($domain);
         }
 
+        if (is_a($propertyInfo->getType(), EntityModel::class, true)) {
+            $propertyInfo->setReference(true);
+        }
+
     }
 
     private function parseReturnTypeDocBlock($docBlock)

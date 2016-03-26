@@ -9,13 +9,10 @@
 namespace Veloci\User\Resolver;
 
 
-use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Http\Request;
 use Laravel\Lumen\Routing\ProvidesConvenienceMethods;
-use Veloci\User\Exception\AuthenticationFailException;
 use Veloci\User\Exception\ValidationException;
 use Veloci\User\Repository\UserRepository;
-use Veloci\User\User;
 
 class StandardUserResolver implements UserResolver
 {
@@ -49,13 +46,13 @@ class StandardUserResolver implements UserResolver
                 'username' => 'not exists'
             ]);
         }
-        
+
         if($user->getPassword() !== $password) {
             throw new ValidationException([
                 'password' => 'wrong'
             ]);
         }
-        
+
         return $user;
     }
 

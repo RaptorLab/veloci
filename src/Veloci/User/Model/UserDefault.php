@@ -65,7 +65,7 @@ class UserDefault extends RichEntityModel implements User
 
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getPassword():string
     {

@@ -10,19 +10,13 @@ namespace Veloci\User\Repository;
 
 
 use Veloci\Core\Repository\EntityRepository;
+use Veloci\User\Factory\UserSessionFactory;
 use Veloci\User\User;
 use Veloci\User\UserSession;
 use Veloci\User\UserToken;
 
-interface UserSessionRepository extends EntityRepository
+interface UserSessionRepository extends EntityRepository, UserSessionFactory
 {
-    /**
-     * @param User $user
-     * @param UserToken $userToken
-     * @return UserSession
-     */
-    public function create(User $user, UserToken $userToken);
-
     /**
      * @param User $user
      * @return UserSession

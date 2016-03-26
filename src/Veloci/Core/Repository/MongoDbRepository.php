@@ -64,9 +64,9 @@ abstract class MongoDbRepository implements EntityRepository
     /**
      *
      * @param mixed $id
-     * @return EntityModel
+     * @return EntityModel | null
      */
-    public function get($id):EntityModel
+    public function get($id)
     {
         $collection = $this->getCollectionInstance();
 

@@ -9,9 +9,6 @@
 namespace Veloci\User\Model;
 
 
-use DateTime;
-
-use Veloci\Core\Model\DateableModel;
 use Veloci\Core\Model\RichEntityModel;
 use Veloci\User\User;
 use Veloci\User\UserSession;
@@ -20,34 +17,45 @@ use Veloci\User\UserToken;
 class UserSessionDefault extends RichEntityModel implements UserSession
 {
     /**
-     * @var mixed
+     * @var User
      */
-    private $userId;
+    protected $user;
 
     /**
-     * SessionTokenModelDefault constructor.
-     *
-     * @param UserToken $userToken
+     * @var UserToken
+     */
+    protected $userToken;
+
+
+    /**
+     * @return User
+     */
+    public function getUser():User
+    {
+        return $this->user;
+    }
+
+    /**
+     * @return UserToken
+     */
+    public function getUserToken():UserToken
+    {
+        return $this->userToken;
+    }
+
+    /**
      * @param User $user
      */
-    public function __construct(UserToken $userToken, User $user)
+    public function setUser($user)
     {
-        $this->id        = (string)$userToken;
-        $this->userId    = $user->getId();
-        $this->createdAt = new DateTime();
-        $this->updatedAt = new DateTime();
+        $this->user = $user;
     }
 
     /**
-     * @return mixed
+     * @param UserToken $userToken
      */
-    public function getUserId()
+    public function setUserToken($userToken)
     {
-        return $this->userId;
-    }
-
-    public function __wakeup()
-    {
-        $this->updatedAt = new DateTime();
+        $this->userToken = $userToken;
     }
 }

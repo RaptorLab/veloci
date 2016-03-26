@@ -62,7 +62,9 @@ class AuthManagerDefault implements AuthManager
 
         if (!$userSession) {
             $userToken   = $this->userTokenFactory->create($user);
-            $userSession = $this->userSessionRepository->create($user, $userToken);
+            
+            
+            $userSession = $this->userSessionRepository->create();
             
             $this->userSessionRepository->save($userSession);
         }

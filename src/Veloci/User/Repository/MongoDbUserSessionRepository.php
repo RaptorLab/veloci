@@ -38,11 +38,13 @@ class MongoDbUserSessionRepository extends MongoDbRepository implements UserSess
     }
 
     /**
-     * @return UserSession
+     * @param array $data
+     * @param bool $fullHydration
+     * @return EntityModel
      */
-    public function create(User $user, UserToken $userToken):UserSession
+    public function create(array $data = [], bool $fullHydration = false):EntityModel
     {
-        return $this->factory->create($user, $userToken);
+        return $this->factory->create($data, $fullHydration);
     }
 
     /**
@@ -60,7 +62,7 @@ class MongoDbUserSessionRepository extends MongoDbRepository implements UserSess
 
     public function deserialize(array $data):EntityModel
     {
-        //return $this->serializer->hydrate($data, )
+        return $this->factory->create($data);
     }
 
     /**
@@ -77,7 +79,7 @@ class MongoDbUserSessionRepository extends MongoDbRepository implements UserSess
         $sessions = $this->getAll($criteria)->toArray();
 
         if (count($sessions) > 0) {
-            return $sessions[0];
+            return $this->factory->create($sessions[0], true);
         }
 
         return null;

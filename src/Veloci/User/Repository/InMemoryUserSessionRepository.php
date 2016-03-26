@@ -49,9 +49,9 @@ class InMemoryUserSessionRepository extends InMemoryRepository implements UserSe
      * @param UserToken $userToken
      * @return \Veloci\User\UserSession
      */
-    public function create(User $user, UserToken $userToken)
+    public function create(array $data = [], bool $fullHydration = false):EntityModel
     {
-        return $this->userSessionFactory->create($user, $userToken);
+        return $this->userSessionFactory->create($data, $fullHydration);
     }
 
     /**
@@ -61,7 +61,7 @@ class InMemoryUserSessionRepository extends InMemoryRepository implements UserSe
     public function getByUser(User $user)
     {
         $userSession = $this->getBy(function (UserSession $userSession) use ($user) {
-            return $userSession->getUserId() === $user->getId();
+            return $userSession->getUser()->getId() === $user->getId();
         })->first();
 
         return $userSession ?: null;
