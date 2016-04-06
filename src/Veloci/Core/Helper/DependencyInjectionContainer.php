@@ -11,13 +11,8 @@ interface DependencyInjectionContainer
      * @param string $alias
      * @param string $class
      */
-    public function registerClass($alias, $class);
+    public function registerClass($alias, $class, Closure $generator = null);
 
-    /**
-     * @param string $alias
-     * @param Closure $closure
-     */
-    public function registerClosure($alias, Closure $closure);
 
     /**
      * @param string $alias
