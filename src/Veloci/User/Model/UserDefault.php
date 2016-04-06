@@ -93,7 +93,6 @@ class UserDefault extends RichEntityModel implements User
     {
         parent::setCustomMetadata($metadata);
 
-
         $metadata->getProperty('username')
             ->setDomain(new StringDomain('/^[A-Za-z][A-Za-z0-9]*(?:_[A-Za-z0-9]+)*$/'))
             ->setNullable(false);

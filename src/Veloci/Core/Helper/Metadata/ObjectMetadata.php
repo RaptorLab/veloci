@@ -14,7 +14,7 @@ use Veloci\Core\Model\EntityModel;
 use Veloci\User\Exception\ValidationException;
 
 
-final class ObjectMetadata
+class ObjectMetadata
 {
     /** @var PropertyMetadata[] */
     private $properties = [];

@@ -10,9 +10,8 @@ namespace Test\Veloci\User\Manager;
 
 
 use Mockery;
-use Veloci\User\Factory\UserFactory;
+use Veloci\Core\Helper\Metadata\ModelValidator;
 use Veloci\User\Manager\UserManagerDefault;
-use Veloci\User\Repository\InMemoryUserRepository;
 use Veloci\User\Repository\UserRepository;
 use Veloci\User\User;
 
@@ -25,9 +24,24 @@ class UserManagerDefaultTest extends \PHPUnit_Framework_TestCase
     {
         $userRepository = $this->mockUserRepository();
         $user           = $this->mockUser(1);
-        $manager        = new UserManagerDefault($userRepository);
+        $modelValidator = $this->mockModelValidator();
+        $manager        = new UserManagerDefault($userRepository, $modelValidator);
 
         $userRepository->shouldReceive('save')->with($user);
+
+        $user
+            ->shouldReceive('getUsername')
+            ->andReturn('foo');
+
+        $userRepository
+            ->shouldReceive('usernameAlreadyExists')
+            ->with('foo')
+            ->andReturnFalse();
+
+        $modelValidator
+            ->shouldReceive('validate')
+            ->with($user)
+            ->andReturnTrue();
 
         $manager->signup($user);
     }
@@ -38,7 +52,8 @@ class UserManagerDefaultTest extends \PHPUnit_Framework_TestCase
     public function shouldCreate()
     {
         $userRepository = $this->mockUserRepository();
-        $manager        = new UserManagerDefault($userRepository);
+        $modelValidator = $this->mockModelValidator();
+        $manager        = new UserManagerDefault($userRepository, $modelValidator);
 
         $userRepository->shouldReceive('create');
 
@@ -52,7 +67,9 @@ class UserManagerDefaultTest extends \PHPUnit_Framework_TestCase
     {
         $userRepository = $this->mockUserRepository();
         $user           = $this->mockUser(1);
-        $manager        = new UserManagerDefault($userRepository);
+        $modelValidator = $this->mockModelValidator();
+
+        $manager = new UserManagerDefault($userRepository, $modelValidator);
 
         $userRepository->shouldReceive('save')->with($user);
         $user->shouldReceive('enable')->once()->withNoArgs();
@@ -67,7 +84,9 @@ class UserManagerDefaultTest extends \PHPUnit_Framework_TestCase
     {
         $userRepository = $this->mockUserRepository();
         $user           = $this->mockUser(1);
-        $manager        = new UserManagerDefault($userRepository);
+        $modelValidator = $this->mockModelValidator();
+
+        $manager = new UserManagerDefault($userRepository, $modelValidator);
 
         $userRepository->shouldReceive('save')->once()->with($user);
         $user->shouldReceive('disable')->once()->withNoArgs();
@@ -78,10 +97,13 @@ class UserManagerDefaultTest extends \PHPUnit_Framework_TestCase
     /**
      * @test
      */
-    public function shouldExists() {
+    public function shouldExists()
+    {
         $userRepository = $this->mockUserRepository();
         $user           = $this->mockUser(1);
-        $manager        = new UserManagerDefault($userRepository);
+        $modelValidator = $this->mockModelValidator();
+
+        $manager = new UserManagerDefault($userRepository, $modelValidator);
 
         $userRepository->shouldReceive('exists')->once()->with($user);
 
@@ -106,5 +128,13 @@ class UserManagerDefaultTest extends \PHPUnit_Framework_TestCase
         $mock->shouldReceive('getId')->andReturn($id);
 
         return $mock;
+    }
+
+    /**
+     * @return Mockery\MockInterface|ModelValidator
+     */
+    private function mockModelValidator():ModelValidator
+    {
+        return Mockery::mock(ModelValidator::class);
     }
 }
