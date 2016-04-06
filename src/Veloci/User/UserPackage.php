@@ -86,25 +86,37 @@ class UserPackage extends Package
 
         $this->container->registerClass(MongoDbManager::class, MongoDbManagerDefault::class);
         $this->container->registerClass(ModelSerializer::class, ModelSerializerDefault::class);
-        $this->container->registerClass(SerializationStrategyRepository::class, function () {
-            $strategyRepository = new SerializationStrategyRepositoryDefault();
+        $this->container->registerClass(
+            SerializationStrategyRepository::class,
+            SerializationStrategyRepositoryDefault::class,
+            function () {
+                $strategyRepository = new SerializationStrategyRepositoryDefault();
 
-            $strategyRepository->setFallback(new DoNothingStrategy());
+                $strategyRepository->setFallback(new DoNothingStrategy());
 
-            $strategyRepository->register(DateTime::class, new DateTimeStrategy('H:i:s d/m/Y'));
+                $strategyRepository->register(DateTime::class, new DateTimeStrategy('H:i:s d/m/Y'));
 
-            return $strategyRepository;
-        });
+                return $strategyRepository;
+            }
+        );
 
         $this->container->registerClass(ModelAnalyzer::class, ModelAnalyzerDefault::class);
 
-        $this->container->registerClass(MetadataRepository::class, function ($app) {
-            return new MetadataRepositoryDefault(new InMemoryKeyValueStore(), $app[ModelAnalyzer::class]);
-        });
+        $this->container->registerClass(
+            MetadataRepository::class,
+            MetadataRepositoryDefault::class,
+            function ($app) {
+                return new MetadataRepositoryDefault(new InMemoryKeyValueStore(), $app[ModelAnalyzer::class]);
+            }
+        );
 
-        $this->container->registerClass(DomainResolver::class, function ($app) {
-            return new DomainResolverDefault(new InMemoryKeyValueStore());
-        });
+        $this->container->registerClass(
+            DomainResolver::class,
+            DomainResolverDefault::class,
+            function ($app) {
+                return new DomainResolverDefault(new InMemoryKeyValueStore());
+            }
+        );
 
         $this->container->registerClass(ModelValidator::class, ModelValidatorDefault::class);
 
