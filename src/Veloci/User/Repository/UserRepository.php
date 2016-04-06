@@ -20,11 +20,17 @@ interface UserRepository extends EntityRepository
     /**
      * @return User
      */
-    public function create();
+    public function create(array $data = []):User;
 
     /**
      * @param string $username
      * @return bool
      */
     public function usernameAlreadyExists(string $username):bool;
+
+    /**
+     * @param string $username
+     * @return User|null
+     */
+    public function getUserByUsername(string $username);
 }

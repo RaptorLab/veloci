@@ -10,6 +10,7 @@ namespace Veloci\Core\Repository;
 
 use Closure;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\Criteria;
 use Veloci\Core\Helper\Resultset\Resultset;
 use Veloci\Core\Model\EntityModel;
@@ -80,9 +81,9 @@ abstract class InMemoryRepository implements EntityRepository
 
     /**
      * @param Closure $closure
-     * @return \Doctrine\Common\Collections\Collection|static
+     * @return \Doctrine\Common\Collections\Collection
      */
-    protected function getBy(Closure $closure)
+    protected function getBy(Closure $closure):Collection
     {
         return $this->repository->filter($closure);
     }

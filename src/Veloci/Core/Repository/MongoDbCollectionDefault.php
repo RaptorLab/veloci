@@ -9,6 +9,7 @@
 namespace Veloci\Core\Repository;
 
 
+use MongoDB\BSON\ObjectID;
 use MongoDB\Collection;
 
 class MongoDbCollectionDefault implements MongoDbCollection
@@ -29,7 +30,7 @@ class MongoDbCollectionDefault implements MongoDbCollection
 
     public function findById($id)
     {
-        return $this->collection->findOne(['_id' => new \MongoId($id)]);
+        return $this->collection->findOne(['_id' => new ObjectID($id)]);
     }
 
     public function find(array $query = [])

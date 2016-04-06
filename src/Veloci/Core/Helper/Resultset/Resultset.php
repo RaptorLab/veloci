@@ -18,4 +18,9 @@ interface Resultset extends \Iterator
      * @return mixed
      */
     public function appendFilter (ResultsetFilter $filter);
+
+    /**
+     * @return array
+     */
+    public function toArray():array;
 }

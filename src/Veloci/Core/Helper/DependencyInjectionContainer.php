@@ -24,4 +24,10 @@ interface DependencyInjectionContainer
      * @return mixed
      */
     public function get($alias);
+
+    /**
+     * @param $alias
+     * @return string | null
+     */
+    public function getClass($alias);
 }

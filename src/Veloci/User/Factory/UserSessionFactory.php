@@ -16,10 +16,4 @@ use Veloci\User\UserToken;
 
 interface UserSessionFactory extends ModelFactory
 {
-    /**
-     * @param User $user
-     * @param UserToken $userToken
-     * @return UserSession
-     */
-    public function create(User $user, UserToken $userToken):UserSession;
 }

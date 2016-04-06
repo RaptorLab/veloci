@@ -2,24 +2,17 @@
 
 namespace Veloci\User;
 
-use DateTime;
 use Veloci\Core\Model\EntityModel;
 
 interface UserSession extends EntityModel {
 
     /**
-     * @return DateTime
+     * @return \Veloci\User\User
      */
-    public function getCreatedAt():DateTime;
+    public function getUser():User;
 
     /**
-     * @return DateTime
+     * @return UserToken
      */
-    public function getUpdatedAt():DateTime;
-
-
-    /**
-     * @return mixed
-     */
-    public function getUserId();
+    public function getUserToken():UserToken;
 }

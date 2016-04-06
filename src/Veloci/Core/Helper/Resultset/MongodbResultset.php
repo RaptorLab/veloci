@@ -103,4 +103,16 @@ class MongodbResultset implements Resultset
 
         return $input;
     }
+
+    public function toArray():array
+    {
+        $this->rewind();
+        $result = [];
+
+        foreach ($this as $key => $value) {
+            $result[$key] = $value;
+        }
+
+        return $result;
+    }
 }

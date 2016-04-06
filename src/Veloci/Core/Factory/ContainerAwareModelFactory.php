@@ -41,17 +41,14 @@ abstract class ContainerAwareModelFactory implements ModelFactory
      *
      * @throws \RuntimeException
      */
-    final public function create(array $data = []):EntityModel
+    final public function create(array $data = [], bool $fullHydration = false):EntityModel
     {
-        $model = $this->container->get($this->className);
+        $class = $this->container->getClass($this->className);
 
-        if ($model === null) {
+        if (!$class) {
             throw new \RuntimeException ('Cannot create a new instance of ' . $this->className);
         }
 
-        $this->serializer->hydrate($data, $model);
-
-        return $model;
-
+        return $this->serializer->hydrate($data, $class, $fullHydration);
     }
 }

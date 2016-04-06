@@ -12,6 +12,8 @@ use Veloci\Core\Model\EntityModel;
 interface User extends EntityModel {
     public function getUsername():string;
 
+    public function getPassword():string;
+
     public function isEnabled();
 
     public function enable();

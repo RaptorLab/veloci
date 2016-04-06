@@ -10,20 +10,20 @@ namespace Veloci\User\Factory;
 
 
 
-use Veloci\User\Model\UserSessionDefault;
-use Veloci\User\User;
+use Veloci\Core\Factory\ContainerAwareModelFactory;
+use Veloci\Core\Helper\DependencyInjectionContainer;
+use Veloci\Core\Helper\Serializer\ModelSerializer;
 use Veloci\User\UserSession;
-use Veloci\User\UserToken;
 
-class UserSessionFactoryDefault implements UserSessionFactory
+class UserSessionFactoryDefault extends ContainerAwareModelFactory implements UserSessionFactory
 {
     /**
-     * @param User $user
-     * @param UserToken $userToken
-     * @return UserSession
+     * UserFactoryDefault constructor.
+     * @param DependencyInjectionContainer $container
+     * @param ModelSerializer $serializer
      */
-    public function create(User $user, UserToken $userToken):UserSession
+    public function __construct(DependencyInjectionContainer $container, ModelSerializer $serializer)
     {
-        return new UserSessionDefault($userToken, $user);
+        parent::__construct($container, $serializer, UserSession::class);
     }
 }

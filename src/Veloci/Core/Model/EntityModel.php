@@ -16,6 +16,8 @@ use DateTime;
 interface EntityModel extends Model, MetadataAware
 {
 
+    public function __construct();
+
     /**
      * @return mixed
      */

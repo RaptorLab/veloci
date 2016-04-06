@@ -44,6 +44,8 @@ class PropertyMetadata implements Validable
     /** @var string */
     private $lastError = '';
 
+    private $reference = false;
+
 
     /**
      * @return boolean
@@ -222,5 +224,18 @@ class PropertyMetadata implements Validable
     public function formatError($value):string
     {
         return $this->lastError;
+    }
+
+    public function setReference($value)
+    {
+        $this->reference = $value;
+    }
+
+    /**
+     * @return boolean
+     */
+    public function isReference()
+    {
+        return $this->reference;
     }
 }

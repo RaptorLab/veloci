@@ -16,30 +16,31 @@ use Veloci\Core\Model\EntityModel;
  *
  * @author christian
  */
-interface EntityRepository {
+interface EntityRepository
+{
 
     /**
-     * 
+     *
      * @param mixed $id
      * @return EntityModel|null
      */
     public function get($id);
-    
+
     /**
-     * 
+     *
      * @param EntityModel $model
      */
     public function save(EntityModel $model);
 
     /**
-     * 
+     *
      * @param EntityModel $model
      */
     public function delete(EntityModel $model);
 
     /**
      * @param Criteria $criteria
-     * 
+     *
      * @return Resultset A collection of entities
      */
     public function getAll(Criteria $criteria = null):Resultset;
@@ -48,7 +49,7 @@ interface EntityRepository {
      * @param EntityModel $model
      * @return boolean
      */
-    public function exists(EntityModel $model):bool ;
+    public function exists(EntityModel $model):bool;
 
     /**
      * @param EntityModel $model
@@ -56,4 +57,7 @@ interface EntityRepository {
      */
     public function accept(EntityModel $model):bool;
 
+    public function serialize(EntityModel $model):array;
+
+    public function deserialize(array $data):EntityModel;
 }

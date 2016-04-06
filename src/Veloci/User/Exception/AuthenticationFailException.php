@@ -12,5 +12,19 @@ use RuntimeException;
 
 class AuthenticationFailException extends RuntimeException
 {
+    /**
+     * @var string
+     */
+    private $cause;
 
+    public function __construct(string $cause)
+    {
+        parent::__construct('Authorization fail');
+
+        $this->cause = $cause;
+    }
+
+    public function getCause() {
+        return $this->cause;
+    }
 }
