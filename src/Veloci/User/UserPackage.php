@@ -17,6 +17,8 @@ use Veloci\Core\Helper\Metadata\ModelAnalyzer;
 use Veloci\Core\Helper\Metadata\ModelAnalyzerDefault;
 use Veloci\Core\Helper\Metadata\ModelValidator;
 use Veloci\Core\Helper\Metadata\ModelValidatorDefault;
+use Veloci\Core\Helper\Serializer\ModelHydrator;
+use Veloci\Core\Helper\Serializer\ModelHydratorDefault;
 use Veloci\Core\Helper\Serializer\ModelSerializer;
 use Veloci\Core\Helper\Serializer\ModelSerializerDefault;
 use Veloci\Core\Helper\Serializer\SerializationStrategyRepository;
@@ -32,8 +34,6 @@ use Veloci\Core\Repository\MongoDbManagerDefault;
 use Veloci\Core\Repository\RepositoryType;
 use Veloci\User\Factory\UserFactory;
 use Veloci\User\Factory\UserFactoryDefault;
-use Veloci\User\Factory\UserResolverFactory;
-use Veloci\User\Factory\UserResolverFactoryDefault;
 use Veloci\User\Factory\UserSessionFactory;
 use Veloci\User\Factory\UserSessionFactoryDefault;
 use Veloci\User\Factory\UserTokenFactory;
@@ -52,13 +52,12 @@ use Veloci\User\Repository\MongoDbUserRepository;
 use Veloci\User\Repository\MongoDbUserSessionRepository;
 use Veloci\User\Repository\UserRepository;
 use Veloci\User\Repository\UserSessionRepository;
-use Veloci\User\Resolver\StandardUserResolver;
 
 class UserPackage extends Package
 {
 
     /**
-     *
+     * @throws \InvalidArgumentException
      */
     protected function init()
     {
@@ -72,13 +71,13 @@ class UserPackage extends Package
         $this->container->registerClass(UserFactory::class, UserFactoryDefault::class);
         $this->container->registerClass(UserSessionFactory::class, UserSessionFactoryDefault::class);
         $this->container->registerClass(UserTokenFactory::class, UserTokenFactoryDefault::class);
-        $this->container->registerClass(UserResolverFactory::class, function ($app) {
-            $userResolverFactory = new UserResolverFactoryDefault(new InMemoryKeyValueStore(), $app[DependencyInjectionContainer::class]);
-
-            $userResolverFactory->registerUserResolver(StandardUserResolver::class);
-
-            return $userResolverFactory;
-        });
+//        $this->container->registerClass(UserResolverFactory::class, function ($app) {
+//            $userResolverFactory = new UserResolverFactoryDefault(new InMemoryKeyValueStore(), $app[DependencyInjectionContainer::class]);
+//
+//            $userResolverFactory->registerUserResolver(StandardUserResolver::class);
+//
+//            return $userResolverFactory;
+//        });
 
         // Managers
         $this->container->registerClass(UserManager::class, UserManagerDefault::class);
@@ -100,20 +99,22 @@ class UserPackage extends Package
             }
         );
 
+        $this->container->registerClass(ModelHydrator::class, ModelHydratorDefault::class);
+
         $this->container->registerClass(ModelAnalyzer::class, ModelAnalyzerDefault::class);
 
         $this->container->registerClass(
             MetadataRepository::class,
             MetadataRepositoryDefault::class,
             function ($app) {
-                return new MetadataRepositoryDefault(new InMemoryKeyValueStore(), $app[ModelAnalyzer::class]);
+                return new MetadataRepositoryDefault(new InMemoryKeyValueStore(), $app[ModelAnalyzer::class], $app[DependencyInjectionContainer::class]);
             }
         );
 
         $this->container->registerClass(
             DomainResolver::class,
             DomainResolverDefault::class,
-            function ($app) {
+            function () {
                 return new DomainResolverDefault(new InMemoryKeyValueStore());
             }
         );

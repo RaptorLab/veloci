@@ -15,6 +15,7 @@ use Veloci\Core\Helper\Metadata\ObjectMetadata;
 interface MetadataAware
 {
     /**
+     * @param ObjectMetadata $metadata
      * @return array
      */
     public static function setCustomMetadata(ObjectMetadata $metadata);

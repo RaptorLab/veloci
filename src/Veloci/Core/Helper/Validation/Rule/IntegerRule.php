@@ -9,25 +9,31 @@
 namespace Veloci\Core\Helper\Validation\Rule;
 
 
-use Veloci\User\Exception\ValidationException;
-
 class IntegerRule implements ValidationRule
 {
     /**
-     * @throws ValidationException
+     * @param mixed $value
+     * @return bool
      */
-    public function validate($value)
+    public function validate($value):bool
     {
         return is_int($value);
     }
 
-    public function getType()
+    /**
+     * @return string
+     */
+    public function getType():string
     {
         return ValidationRules::INTEGER;
     }
 
-    public function getMessage($field)
+    /**
+     * @param $field
+     * @return string
+     */
+    public function getMessage($field):string
     {
-        return sprintf("The field %s must be an integer", $field);
+        return sprintf('The field %s must be an integer', $field);
     }
 }

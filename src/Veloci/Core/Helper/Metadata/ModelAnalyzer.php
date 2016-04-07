@@ -9,7 +9,7 @@
 namespace Veloci\Core\Helper\Metadata;
 
 
-use Veloci\Core\Model\EntityModel;
+
 
 interface ModelAnalyzer
 {

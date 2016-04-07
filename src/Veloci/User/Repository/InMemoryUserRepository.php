@@ -8,10 +8,7 @@
 
 namespace Veloci\User\Repository;
 
-use Veloci\Core\Helper\Serializer\ModelSerializer;
-use Veloci\Core\Model\EntityModel;
 use Veloci\Core\Repository\InMemoryRepository;
-use Veloci\User\Factory\UserFactory;
 use Veloci\User\User;
 
 /**
@@ -22,40 +19,6 @@ use Veloci\User\User;
 class InMemoryUserRepository extends InMemoryRepository implements UserRepository
 {
     /**
-     * @var UserFactory
-     */
-    private $userFactory;
-    /**
-     * @var ModelSerializer
-     */
-    private $modelSerializer;
-
-    /**
-     * InMemoryUserRepository constructor.
-     * @param UserFactory $userFactory
-     */
-    public function __construct(UserFactory $userFactory, ModelSerializer $modelSerializer)
-    {
-        parent::__construct();
-
-        $this->userFactory     = $userFactory;
-        $this->modelSerializer = $modelSerializer;
-    }
-
-    public function accept(EntityModel $model):bool
-    {
-        return $model instanceof User;
-    }
-
-    /**
-     * @return User
-     */
-    public function create(array $data = []):User
-    {
-        return $this->userFactory->create($data);
-    }
-
-    /**
      * @param string $username
      * @return bool
      */
@@ -64,16 +27,6 @@ class InMemoryUserRepository extends InMemoryRepository implements UserRepositor
         $user = $this->getUserByUsername($username);
 
         return $user !== null;
-    }
-
-    public function serialize(EntityModel $model):array
-    {
-        return $this->modelSerializer->serialize($model);
-    }
-
-    public function deserialize(array $data):EntityModel
-    {
-        return $model = $this->userFactory->create($data);
     }
 
     /**
@@ -92,5 +45,10 @@ class InMemoryUserRepository extends InMemoryRepository implements UserRepositor
         }
 
         return null;
+    }
+
+    protected function getModelClass():string
+    {
+        return User::class;
     }
 }

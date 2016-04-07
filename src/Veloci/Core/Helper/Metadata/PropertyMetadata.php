@@ -39,7 +39,7 @@ class PropertyMetadata implements Validable
     private $primaryKey = false;
 
     /** @var Domain|null */
-    private $domain = null;
+    private $domain;
 
     /** @var string */
     private $lastError = '';
@@ -57,6 +57,7 @@ class PropertyMetadata implements Validable
 
     /**
      * @param boolean $readOnly
+     * @return $this
      */
     public function setReadOnly(bool $readOnly)
     {
@@ -75,6 +76,7 @@ class PropertyMetadata implements Validable
 
     /**
      * @param string $type
+     * @return $this
      */
     public function setType(string $type)
     {
@@ -93,6 +95,7 @@ class PropertyMetadata implements Validable
 
     /**
      * @param string $getter
+     * @return $this
      */
     public function setGetter(string $getter)
     {
@@ -111,6 +114,7 @@ class PropertyMetadata implements Validable
 
     /**
      * @param boolean $builtIn
+     * @return $this
      */
     public function setBuiltIn(bool $builtIn)
     {
@@ -129,6 +133,7 @@ class PropertyMetadata implements Validable
 
     /**
      * @param bool $nullable
+     * @return $this
      */
     public function setNullable(bool $nullable)
     {
@@ -142,6 +147,10 @@ class PropertyMetadata implements Validable
         return $this->name;
     }
 
+    /**
+     * @param string $name
+     * @return $this
+     */
     public function setName(string $name)
     {
         $this->name = $name;
@@ -159,6 +168,7 @@ class PropertyMetadata implements Validable
 
     /**
      * @param bool $primaryKey
+     * @return $this
      */
     public function setPrimaryKey(bool $primaryKey)
     {
@@ -177,6 +187,7 @@ class PropertyMetadata implements Validable
 
     /**
      * @param string $setter
+     * @return $this
      */
     public function setSetter(string $setter)
     {
@@ -194,7 +205,8 @@ class PropertyMetadata implements Validable
     }
 
     /**
-     * @param null|Domain $domain
+     * @param Domain $domain
+     * @return $this
      */
     public function setDomain(Domain $domain)
     {
@@ -205,17 +217,16 @@ class PropertyMetadata implements Validable
 
     public function validate($value):bool
     {
-        if (!$this->isNullable() && is_null($value)) {
+        if ($value === null && $this->isNullable()) {
             $this->lastError = 'required';
+
             return false;
         }
 
-        if ($this->domain !== null) {
-            if (!$this->domain->validate($value)) {
-                $this->lastError = $this->domain->formatError($value);
+        if ($this->domain !== null && !$this->domain->validate($value)) {
+            $this->lastError = $this->domain->formatError($value);
 
-                return false;
-            }
+            return false;
         }
 
         return true;

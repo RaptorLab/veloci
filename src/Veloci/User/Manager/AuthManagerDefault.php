@@ -10,6 +10,7 @@ namespace Veloci\User\Manager;
 
 
 use Veloci\User\Exception\AuthenticationFailException;
+use Veloci\User\Factory\UserSessionFactory;
 use Veloci\User\Factory\UserTokenFactory;
 use Veloci\User\Repository\UserRepository;
 use Veloci\User\Repository\UserSessionRepository;
@@ -31,18 +32,29 @@ class AuthManagerDefault implements AuthManager
      * @var UserTokenFactory
      */
     private $userTokenFactory;
+    /**
+     * @var UserSessionFactory
+     */
+    private $userSessionFactory;
 
     /**
      * AuthManagerDefault constructor.
      * @param UserSessionRepository $userSessionRepository
      * @param UserRepository $userRepository
      * @param UserTokenFactory $userTokenFactory
+     * @param UserSessionFactory $userSessionFactory
      */
-    public function __construct(UserSessionRepository $userSessionRepository, UserRepository $userRepository, UserTokenFactory $userTokenFactory)
+    public function __construct(
+        UserSessionRepository $userSessionRepository,
+        UserRepository $userRepository,
+        UserTokenFactory $userTokenFactory,
+        UserSessionFactory $userSessionFactory
+    )
     {
         $this->userSessionRepository = $userSessionRepository;
         $this->userRepository        = $userRepository;
         $this->userTokenFactory      = $userTokenFactory;
+        $this->userSessionFactory    = $userSessionFactory;
     }
 
     /**
@@ -61,11 +73,14 @@ class AuthManagerDefault implements AuthManager
         $userSession = $this->userSessionRepository->getByUser($user);
 
         if (!$userSession) {
-            $userToken   = $this->userTokenFactory->create($user);
-            
-            
-            $userSession = $this->userSessionRepository->create();
-            
+            $userToken = $this->userTokenFactory->create($user);
+
+            /** @var UserSession $userSession */
+            $userSession = $this->userSessionFactory->create();
+
+            $userSession->setUser($user);
+            $userSession->setToken($userToken);
+
             $this->userSessionRepository->save($userSession);
         }
 

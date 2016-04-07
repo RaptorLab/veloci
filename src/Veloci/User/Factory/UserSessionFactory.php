@@ -10,9 +10,7 @@ namespace Veloci\User\Factory;
 
 
 use Veloci\Core\Factory\ModelFactory;
-use Veloci\User\User;
-use Veloci\User\UserSession;
-use Veloci\User\UserToken;
+
 
 interface UserSessionFactory extends ModelFactory
 {

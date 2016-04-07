@@ -24,7 +24,7 @@ class UserSessionDefault extends RichEntityModel implements UserSession
     /**
      * @var UserToken
      */
-    protected $userToken;
+    protected $token;
 
 
     /**
@@ -38,24 +38,24 @@ class UserSessionDefault extends RichEntityModel implements UserSession
     /**
      * @return UserToken
      */
-    public function getUserToken():UserToken
+    public function getToken():UserToken
     {
-        return $this->userToken;
+        return $this->token;
     }
 
     /**
      * @param User $user
      */
-    public function setUser($user)
+    public function setUser(User $user)
     {
         $this->user = $user;
     }
 
     /**
-     * @param UserToken $userToken
+     * @param UserToken $token
      */
-    public function setUserToken($userToken)
+    public function setToken(UserToken $token)
     {
-        $this->userToken = $userToken;
+        $this->token = $token;
     }
 }

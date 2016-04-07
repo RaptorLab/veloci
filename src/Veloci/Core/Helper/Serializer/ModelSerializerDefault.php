@@ -45,30 +45,6 @@ class ModelSerializerDefault implements ModelSerializer
         return $result;
     }
 
-    public function hydrate(array $data, string $targetClass, $fullHydration = false):EntityModel
-    {
-        $objectMetadata = $this->metadataRepository->getMetadata($targetClass);
-
-        $target = $objectMetadata->getReflectionClass()->newInstanceWithoutConstructor();
-//        $properties     = $objectMetadata->getProperties();
-
-        foreach ($data as $key => $value) {
-
-            $property = $objectMetadata->getProperty($key);
-
-            if ($property && ($fullHydration || !$property->isReadOnly())) {
-                $type = $property->getType();
-//                $value = array_key_exists($name, $data) ? $data[$name] : null;
-
-                $hydratedValue = $this->hydrateProperty($type, $value);
-
-                $objectMetadata->setValue($target, $key, $hydratedValue);
-            }
-        }
-
-        return $target;
-    }
-
     private function serializeProperty($type, $value)
     {
         $strategy = $this->strategies->get($type);
@@ -78,16 +54,5 @@ class ModelSerializerDefault implements ModelSerializer
         }
 
         return $strategy->serialize($value);
-    }
-
-    private function hydrateProperty($type, $value)
-    {
-        $strategy = $this->strategies->get($type);
-
-        if (!$strategy) {
-            throw new \RuntimeException("No strategy registered for the type $type");
-        }
-
-        return $strategy->deserialize($value);
     }
 }

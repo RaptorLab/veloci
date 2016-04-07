@@ -46,7 +46,7 @@ class IntegerDomain extends AbstractDomain
         if ($init !== null) {
             $init = trim($init);
 
-            $result = preg_match('/^([0-9]+)?[\s]*,[\s]*([0-9]+)?$/', $init, $matches);
+            $result = preg_match('/^(\d+)?[\s]*,[\s]*(\d+)?$/', $init, $matches);
 
             if ($result === 1) {
                 $min = self::getValue($matches, 1, null);
@@ -61,7 +61,7 @@ class IntegerDomain extends AbstractDomain
 
     private static function getValue(array &$array, $index, $default = null)
     {
-        return array_key_exists($index, $array) && !is_null($array[$index])
+        return array_key_exists($index, $array) && ($array[$index] !== null)
             ? $array[$index]
             : $default;
     }

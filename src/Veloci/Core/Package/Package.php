@@ -3,6 +3,7 @@
 namespace Veloci\Core\Package;
 
 
+use Veloci\Core\Configuration\PackageConfiguration;
 use Veloci\Core\Helper\DependencyInjectionContainer;
 
 abstract class Package
@@ -12,15 +13,25 @@ abstract class Package
      * @var DependencyInjectionContainer
      */
     protected $container;
+    /**
+     * @var PackageConfiguration
+     */
+    private $configuration;
+
+    /** @var string  */
+    private $databaseType;
 
     /**
      * Package constructor.
      *
      * @param DependencyInjectionContainer $container
      */
-    public function __construct(DependencyInjectionContainer $container)
+    public function __construct(DependencyInjectionContainer $container, PackageConfiguration $configuration)
     {
-        $this->container = $container;
+        $this->container     = $container;
+        $this->configuration = $configuration;
+
+        $this->databaseType = $this->configuration->getDatabase()->getType();
 
         $this->init();
     }
@@ -32,7 +43,7 @@ abstract class Package
 
     protected function registerRepository($type, $interface, $class)
     {
-        if (env('DB_CONNECTION', 'mongodb') === $type) {
+        if ($this->databaseType === $type) {
             $this->container->registerClass($interface, $class);
         }
     }

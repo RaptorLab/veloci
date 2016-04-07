@@ -10,7 +10,8 @@ namespace Veloci\User\Factory;
 
 use Veloci\Core\Factory\ContainerAwareModelFactory;
 use Veloci\Core\Helper\DependencyInjectionContainer;
-use Veloci\Core\Helper\Serializer\ModelSerializer;
+use Veloci\Core\Helper\Serializer\ModelHydrator;
+
 use Veloci\User\User;
 
 class UserFactoryDefault extends ContainerAwareModelFactory implements UserFactory
@@ -18,11 +19,11 @@ class UserFactoryDefault extends ContainerAwareModelFactory implements UserFacto
     /**
      * UserFactoryDefault constructor.
      * @param DependencyInjectionContainer $container
-     * @param ModelSerializer $serializer
+     * @param ModelHydrator $hydrator
      */
-    public function __construct(DependencyInjectionContainer $container, ModelSerializer $serializer)
+    public function __construct(DependencyInjectionContainer $container, ModelHydrator $hydrator)
     {
-        parent::__construct($container, $serializer, User::class);
+        parent::__construct($container, $hydrator, User::class);
     }
 
 }

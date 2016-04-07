@@ -18,11 +18,6 @@ use Veloci\User\User;
 interface UserRepository extends EntityRepository
 {
     /**
-     * @return User
-     */
-    public function create(array $data = []):User;
-
-    /**
      * @param string $username
      * @return bool
      */

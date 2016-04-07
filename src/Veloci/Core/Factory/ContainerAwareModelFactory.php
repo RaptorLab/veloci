@@ -3,7 +3,7 @@
 namespace Veloci\Core\Factory;
 
 use Veloci\Core\Helper\DependencyInjectionContainer;
-use Veloci\Core\Helper\Serializer\ModelSerializer;
+use Veloci\Core\Helper\Serializer\ModelHydrator;
 use Veloci\Core\Model\EntityModel;
 
 abstract class ContainerAwareModelFactory implements ModelFactory
@@ -17,38 +17,35 @@ abstract class ContainerAwareModelFactory implements ModelFactory
      * @var string
      */
     private $className;
+
     /**
-     * @var ModelSerializer
+     * @var ModelHydrator
      */
-    private $serializer;
+    private $hydrator;
 
     /**
      * ContainerAwareFactory constructor.
      * @param DependencyInjectionContainer $container
-     * @param ModelSerializer $serializer
+     * @param ModelHydrator $hydrator
      * @param string $className
      */
-    public function __construct(DependencyInjectionContainer $container, ModelSerializer $serializer, $className)
+    public function __construct(DependencyInjectionContainer $container, ModelHydrator $hydrator, string $className)
     {
-        $this->container  = $container;
-        $this->className  = $className;
-        $this->serializer = $serializer;
+        $this->container = $container;
+        $this->className = $className;
+        $this->hydrator  = $hydrator;
     }
 
     /**
      * @param array $data
-     * @return mixed
+     * @param bool $fullHydration
+     *
+     * @return mixed|EntityModel
      *
      * @throws \RuntimeException
      */
     final public function create(array $data = [], bool $fullHydration = false):EntityModel
     {
-        $class = $this->container->getClass($this->className);
-
-        if (!$class) {
-            throw new \RuntimeException ('Cannot create a new instance of ' . $this->className);
-        }
-
-        return $this->serializer->hydrate($data, $class, $fullHydration);
+        return $this->hydrator->hydrate($this->className, $data, $fullHydration);
     }
 }

@@ -17,11 +17,6 @@ use Veloci\User\User;
 interface UserManager {
 
     /**
-     * @return User
-     */
-    public function create(array $data = []):User;
-
-    /**
      * @param User $user
      */
     public function signup(User $user);

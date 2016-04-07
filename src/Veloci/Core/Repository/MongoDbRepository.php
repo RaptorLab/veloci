@@ -13,12 +13,13 @@ use Doctrine\Common\Collections\Criteria;
 use Veloci\Core\Helper\Resultset\Filter\MongoIdResultsetFilter;
 use Veloci\Core\Helper\Resultset\MongodbResultset;
 use Veloci\Core\Helper\Resultset\Resultset;
+use Veloci\Core\Helper\Serializer\ModelHydrator;
 use Veloci\Core\Helper\Serializer\ModelSerializer;
 use Veloci\Core\Model\EntityModel;
 use Veloci\Core\Repository\Criteria\MongoDbExpressionVisitor;
 
 
-abstract class MongoDbRepository implements EntityRepository
+abstract class MongoDbRepository extends AbstractRepository
 {
 
     /**
@@ -30,21 +31,26 @@ abstract class MongoDbRepository implements EntityRepository
      * @var MongoDbManager
      */
     private $db;
-
     /**
      * @var ModelSerializer
      */
     private $serializer;
+    /**
+     * @var ModelHydrator
+     */
+    private $hydrator;
 
     /**
      * MongoDbRepository constructor.
      * @param MongoDbManager $db
      * @param ModelSerializer $serializer
+     * @param ModelHydrator $hydrator
      */
-    public function __construct(MongoDbManager $db, ModelSerializer $serializer)
+    public function __construct(MongoDbManager $db, ModelSerializer $serializer, ModelHydrator $hydrator)
     {
         $this->db         = $db;
         $this->serializer = $serializer;
+        $this->hydrator   = $hydrator;
     }
 
     /**
@@ -77,6 +83,8 @@ abstract class MongoDbRepository implements EntityRepository
      *
      * @param EntityModel $model
      * @return EntityModel
+     *
+     * @throws \RuntimeException
      */
     public function save(EntityModel $model):EntityModel
     {
@@ -88,7 +96,7 @@ abstract class MongoDbRepository implements EntityRepository
 
             $result = $collection->insert($data);
 
-            $model = $this->serializer->hydrate($result, $model, true);
+            $model = $this->hydrator->hydrate($this->getModelClass(), $result, true);
         }
 
         return $model;
@@ -104,9 +112,11 @@ abstract class MongoDbRepository implements EntityRepository
     }
 
     /**
+     * @param Criteria $criteria
+     * @param bool $hydrate
      * @return Resultset A collection of entities
      */
-    public function getAll(Criteria $criteria = null):Resultset
+    public function getAll(Criteria $criteria = null, $hydrate = true):Resultset
     {
         $collection = $this->getCollectionInstance();
 
@@ -114,7 +124,9 @@ abstract class MongoDbRepository implements EntityRepository
             ? $criteria->getWhereExpression()->visit(new MongoDbExpressionVisitor())
             : [];
 
-        $users = new MongodbResultset($collection->find($query));
+        $hydrator = ($hydrate === true) ? $this->hydrator : null;
+
+        $users = new MongodbResultset($collection->find($query), $hydrator);
 
         $users->appendFilter(new MongoIdResultsetFilter());
 
@@ -131,10 +143,4 @@ abstract class MongoDbRepository implements EntityRepository
 
         return $result !== null;
     }
-
-    /**
-     * @param \Veloci\Core\Model\EntityModel $model
-     * @return bool
-     */
-    abstract public function accept(EntityModel $model):bool;
 }

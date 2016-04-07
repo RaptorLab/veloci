@@ -14,6 +14,9 @@ use Veloci\User\User;
 
 class UserTokenDefault implements UserToken
 {
+    /**
+     * @var string
+     */
     private $token;
 
     public function __construct(User $user)
@@ -21,7 +24,7 @@ class UserTokenDefault implements UserToken
         $this->token = md5(uniqid($user->getId(), true));
     }
 
-    public function __toString()
+    public function __toString():string
     {
         return $this->token;
     }

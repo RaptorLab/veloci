@@ -20,7 +20,7 @@ use Veloci\Core\Model\EntityModel;
  *
  * @author christian
  */
-abstract class InMemoryRepository implements EntityRepository
+abstract class InMemoryRepository extends AbstractRepository
 {
 
     /**
@@ -52,6 +52,7 @@ abstract class InMemoryRepository implements EntityRepository
 
     /**
      *
+     * @param Criteria $criteria
      * @return Resultset
      */
     public function getAll(Criteria $criteria = null):Resultset

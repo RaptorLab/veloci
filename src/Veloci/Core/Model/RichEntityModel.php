@@ -35,6 +35,7 @@ abstract class RichEntityModel implements EntityModel
     }
 
     /**
+     * @param ObjectMetadata $metadata
      * @return ObjectMetadata
      *
      * @throws \RuntimeException

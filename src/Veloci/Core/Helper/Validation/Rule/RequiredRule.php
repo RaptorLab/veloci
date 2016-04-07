@@ -9,24 +9,30 @@
 namespace Veloci\Core\Helper\Validation\Rule;
 
 
-use Veloci\User\Exception\ValidationException;
-
 class RequiredRule implements ValidationRule
 {
     /**
-     * @throws ValidationException
+     * @param $value
+     * @return bool
      */
-    public function validate($value)
+    public function validate($value):bool
     {
-        return !is_null($value);
+        return $value !== null;
     }
 
-    public function getType()
+    /**
+     * @return string
+     */
+    public function getType():string
     {
         return ValidationRules::REQUIRED;
     }
 
-    public function getMessage($field)
+    /**
+     * @param $field
+     * @return string
+     */
+    public function getMessage($field):string
     {
         return sprintf('The field %s is required', $field);
     }

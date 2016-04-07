@@ -9,6 +9,7 @@
 namespace Veloci\Core\Repository;
 
 use Veloci\Core\Helper\ClassHelper;
+use Veloci\Core\Helper\DependencyInjectionContainer;
 use Veloci\Core\Helper\Metadata\ModelAnalyzer;
 use Veloci\Core\Helper\Metadata\ObjectMetadata;
 use Veloci\Core\Model\MetadataAware;
@@ -23,17 +24,23 @@ class MetadataRepositoryDefault implements MetadataRepository
      * @var ModelAnalyzer
      */
     private $modelAnalyzer;
+    /**
+     * @var DependencyInjectionContainer
+     */
+    private $container;
 
     /**
      * MetadataRepositoryDefault constructor.
      *
      * @param KeyValueStore $storage
      * @param ModelAnalyzer $modelAnalyzer
+     * @param DependencyInjectionContainer $container
      */
-    public function __construct(KeyValueStore $storage, ModelAnalyzer $modelAnalyzer)
+    public function __construct(KeyValueStore $storage, ModelAnalyzer $modelAnalyzer, DependencyInjectionContainer $container)
     {
         $this->storage       = $storage;
         $this->modelAnalyzer = $modelAnalyzer;
+        $this->container     = $container;
     }
 
 
@@ -45,6 +52,11 @@ class MetadataRepositoryDefault implements MetadataRepository
 
         /** @var MetadataAware|string $className */
         $className = ClassHelper::getClassName($class);
+
+        // Resolving the container interface
+        if ($this->container->contains($className)) {
+            $className = $this->container->getClass($className);
+        }
 
         if ($this->storage->contains($className)) {
             $metadata = $this->storage->get($className);

@@ -9,6 +9,7 @@
 namespace Veloci\Core\Helper\Resultset;
 
 
+use Closure;
 use MongoDB\Driver\Cursor;
 use Veloci\Core\Helper\Resultset\Filter\ResultsetFilter;
 
@@ -24,12 +25,18 @@ class MongodbResultset implements Resultset
      *
      */
     private $filters;
+    /**
+     * @var Closure
+     */
+    private $hydrator;
 
-    public function __construct(Cursor $cursor)
+    public function __construct(Cursor $cursor, Closure $hydrator = null)
     {
         $this->cursor = new \IteratorIterator($cursor);
         $this->cursor->rewind();
         $this->filters = [];
+
+        $this->hydrator = $hydrator;
     }
 
     /**
@@ -42,7 +49,13 @@ class MongodbResultset implements Resultset
     {
         $current = (array)$this->cursor->current();
 
-        return $this->applyFilters($current);
+        if ($current === null) {
+            return null;
+        }
+
+        $result = $this->applyFilters($current);
+
+        return ($this->hydrator === null) ? $result : $this->hydrator->call($this, $result);
     }
 
     /**
@@ -114,5 +127,12 @@ class MongodbResultset implements Resultset
         }
 
         return $result;
+    }
+
+    public function getNextElement()
+    {
+        $this->next();
+
+        return $this->current();
     }
 }

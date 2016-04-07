@@ -12,7 +12,7 @@ namespace Veloci\Core\Helper;
 class ClassHelper
 {
     /**
-     * @param object|string $class
+     * @param mixed $class
      * @return string
      */
     public static function getClassName($class):string

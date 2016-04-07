@@ -8,16 +8,13 @@
 
 namespace Veloci\Core\Helper\Validation\Rule;
 
-use Veloci\User\Exception\ValidationException;
+
 
 interface ValidationRule
 {
-    /**
-     * @throws ValidationException
-     */
-    public function validate($value);
+    public function validate($value):bool;
 
-    public function getType ();
+    public function getType ():string;
 
-    public function getMessage($field);
+    public function getMessage($field):string;
 }

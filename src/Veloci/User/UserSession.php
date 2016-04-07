@@ -14,5 +14,9 @@ interface UserSession extends EntityModel {
     /**
      * @return UserToken
      */
-    public function getUserToken():UserToken;
+    public function getToken():UserToken;
+
+    public function setUser(User $user);
+
+    public function setToken (UserToken $token);
 }

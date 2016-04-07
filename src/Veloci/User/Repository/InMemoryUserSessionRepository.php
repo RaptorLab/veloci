@@ -9,12 +9,10 @@
 namespace Veloci\User\Repository;
 
 
-use Veloci\Core\Model\EntityModel;
 use Veloci\Core\Repository\InMemoryRepository;
 use Veloci\User\Factory\UserSessionFactory;
 use Veloci\User\User;
 use Veloci\User\UserSession;
-use Veloci\User\UserToken;
 
 class InMemoryUserSessionRepository extends InMemoryRepository implements UserSessionRepository
 {
@@ -36,25 +34,6 @@ class InMemoryUserSessionRepository extends InMemoryRepository implements UserSe
     }
 
     /**
-     * @param EntityModel $model
-     * @return boolean
-     */
-    public function accept(EntityModel $model):bool
-    {
-        return $model instanceof UserSession;
-    }
-
-    /**
-     * @param User $user
-     * @param UserToken $userToken
-     * @return \Veloci\User\UserSession
-     */
-    public function create(array $data = [], bool $fullHydration = false):EntityModel
-    {
-        return $this->userSessionFactory->create($data, $fullHydration);
-    }
-
-    /**
      * @param User $user
      * @return UserSession
      */
@@ -65,5 +44,10 @@ class InMemoryUserSessionRepository extends InMemoryRepository implements UserSe
         })->first();
 
         return $userSession ?: null;
+    }
+
+    protected function getModelClass():string
+    {
+        return UserSessionFactory::class;
     }
 }

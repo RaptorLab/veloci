@@ -45,7 +45,11 @@ class ValidationRuleRepositoryDefault implements ValidationRulesRepository
 
         if ($validationRules === null) {
             $validationRules = $this->createValidationRules($className);
+
+            $this->store->set($className, $validationRules);
         }
+
+        return $validationRules;
     }
 
     /**

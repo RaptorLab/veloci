@@ -56,8 +56,4 @@ interface EntityRepository
      * @return boolean
      */
     public function accept(EntityModel $model):bool;
-
-    public function serialize(EntityModel $model):array;
-
-    public function deserialize(array $data):EntityModel;
 }

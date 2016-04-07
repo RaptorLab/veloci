@@ -44,6 +44,8 @@ class MongoDbExpressionVisitor extends ExpressionVisitor
      * @see ExpressionVisitor::walkComparison()
      * @param Comparison $comparison
      * @return array
+     *
+     * @throws \RuntimeException
      */
     public function walkComparison(Comparison $comparison)
     {
@@ -85,7 +87,7 @@ class MongoDbExpressionVisitor extends ExpressionVisitor
             $result += $expression->visit($this);
         }
 
-        if ($compositeExpr->getType() == CompositeExpression::TYPE_OR) {
+        if ($compositeExpr->getType() === CompositeExpression::TYPE_OR) {
             return ['$or' => $result];
         }
 

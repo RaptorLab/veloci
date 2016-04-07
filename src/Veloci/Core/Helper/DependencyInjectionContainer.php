@@ -10,6 +10,7 @@ interface DependencyInjectionContainer
     /**
      * @param string $alias
      * @param string $class
+     * @param Closure $generator
      */
     public function registerClass($alias, $class, Closure $generator = null);
 
@@ -25,4 +26,10 @@ interface DependencyInjectionContainer
      * @return string | null
      */
     public function getClass($alias);
+
+    /**
+     * @param $alias
+     * @return bool
+     */
+    public function contains($alias):bool;
 }

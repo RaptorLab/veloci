@@ -2,18 +2,17 @@
 
 namespace Veloci\User\Model;
 
-use DateTime;
+
 
 use Veloci\Core\Helper\Metadata\Domain\StringDomain;
 use Veloci\Core\Helper\Metadata\ObjectMetadata;
-use Veloci\Core\Model\DateableModel;
+
 use Veloci\Core\Model\RichEntityModel;
 use Veloci\User\User;
 use Veloci\User\UserRole;
 
 class UserDefault extends RichEntityModel implements User
 {
-    use DateableModel;
 
     /**
      * @var string
@@ -42,9 +41,9 @@ class UserDefault extends RichEntityModel implements User
      */
     public function __construct()
     {
-        $this->createdAt = new DateTime();
-        $this->updatedAt = new DateTime();
-        $this->role      = new UserRoleDefault('user');
+        parent::__construct();
+
+        $this->role = new UserRoleDefault('user');
     }
 
     /**

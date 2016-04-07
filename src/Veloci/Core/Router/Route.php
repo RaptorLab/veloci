@@ -32,7 +32,7 @@ class Route
      * @param string $controllerClass
      * @param string $controllerMethod
      */
-    public function __construct($method, $url, $controllerClass, $controllerMethod)
+    public function __construct(string $method, string $url, string $controllerClass, string $controllerMethod)
     {
         $this->method           = $method;
         $this->url              = $url;
@@ -41,9 +41,10 @@ class Route
     }
 
     /**
-     * @return HttpMethod
+     * @see HttpMethod
+     * @return string
      */
-    public function getMethod()
+    public function getMethod():string
     {
         return $this->method;
     }
@@ -51,7 +52,7 @@ class Route
     /**
      * @return string
      */
-    public function getUrl()
+    public function getUrl():string
     {
         return $this->url;
     }
@@ -59,7 +60,7 @@ class Route
     /**
      * @return string
      */
-    public function getControllerClass()
+    public function getControllerClass():string
     {
         return $this->controllerClass;
     }
@@ -67,7 +68,7 @@ class Route
     /**
      * @return string
      */
-    public function getControllerMethod()
+    public function getControllerMethod():string
     {
         return $this->controllerMethod;
     }
@@ -78,7 +79,7 @@ class Route
      * @param string $controllerMethod
      * @return Route
      */
-    public static function get($url, $controllerClass, $controllerMethod)
+    public static function get($url, $controllerClass, $controllerMethod):Route
     {
         return new Route(HttpMethod::GET, $url, $controllerClass, $controllerMethod);
     }
@@ -89,7 +90,7 @@ class Route
      * @param string $controllerMethod
      * @return Route
      */
-    public static function post($url, $controllerClass, $controllerMethod)
+    public static function post($url, $controllerClass, $controllerMethod):Route
     {
         return new Route(HttpMethod::POST, $url, $controllerClass, $controllerMethod);
     }
@@ -100,7 +101,7 @@ class Route
      * @param string $controllerMethod
      * @return Route
      */
-    public static function put($url, $controllerClass, $controllerMethod)
+    public static function put($url, $controllerClass, $controllerMethod):Route
     {
         return new Route(HttpMethod::PUT, $url, $controllerClass, $controllerMethod);
     }
@@ -111,7 +112,7 @@ class Route
      * @param string $controllerMethod
      * @return Route
      */
-    public static function delete($url, $controllerClass, $controllerMethod)
+    public static function delete($url, $controllerClass, $controllerMethod):Route
     {
         return new Route(HttpMethod::DELETE, $url, $controllerClass, $controllerMethod);
     }

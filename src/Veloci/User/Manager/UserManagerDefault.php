@@ -3,7 +3,7 @@
 namespace Veloci\User\Manager;
 
 use Veloci\Core\Helper\Metadata\ModelValidator;
-use Veloci\Core\Repository\MetadataRepository;
+
 use Veloci\User\Exception\ValidationException;
 use Veloci\User\Repository\UserRepository;
 use Veloci\User\User;
@@ -23,7 +23,7 @@ class UserManagerDefault implements UserManager
     /**
      *
      * @param UserRepository $userRepository
-     * @param MetadataRepository $metadataRepository
+     * @param ModelValidator $modelValidator
      */
     public function __construct(UserRepository $userRepository, ModelValidator $modelValidator)
     {
@@ -76,13 +76,5 @@ class UserManagerDefault implements UserManager
     public function exists(User $user):bool
     {
         return $this->userRepository->exists($user);
-    }
-
-    /**
-     * @return User
-     */
-    public function create(array $data = []):User
-    {
-        return $this->userRepository->create($data);
     }
 }

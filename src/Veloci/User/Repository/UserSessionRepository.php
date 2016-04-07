@@ -10,12 +10,12 @@ namespace Veloci\User\Repository;
 
 
 use Veloci\Core\Repository\EntityRepository;
-use Veloci\User\Factory\UserSessionFactory;
+
 use Veloci\User\User;
 use Veloci\User\UserSession;
-use Veloci\User\UserToken;
 
-interface UserSessionRepository extends EntityRepository, UserSessionFactory
+
+interface UserSessionRepository extends EntityRepository
 {
     /**
      * @param User $user
