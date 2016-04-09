@@ -124,9 +124,12 @@ abstract class MongoDbRepository extends AbstractRepository
             ? $criteria->getWhereExpression()->visit(new MongoDbExpressionVisitor())
             : [];
 
-        $hydrator = ($hydrate === true) ? $this->hydrator : null;
+        $hydrator  = ($hydrate === true) ? $this->hydrator : null;
+        $className = $this->getModelClass();
 
-        $users = new MongodbResultset($collection->find($query), $hydrator);
+        $users = new MongodbResultset($collection->find($query), function (array $data) use ($hydrator, $className) {
+            return ($hydrator) ? $hydrator->hydrate($className, $data, true) : $data;
+        });
 
         $users->appendFilter(new MongoIdResultsetFilter());
 

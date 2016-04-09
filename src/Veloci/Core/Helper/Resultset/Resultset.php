@@ -8,7 +8,6 @@
 
 namespace Veloci\Core\Helper\Resultset;
 
-
 use Veloci\Core\Helper\Resultset\Filter\ResultsetFilter;
 
 interface Resultset extends \Iterator
