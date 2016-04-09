@@ -42,7 +42,9 @@ abstract class RichEntityModel implements EntityModel
      */
     public static function setCustomMetadata(ObjectMetadata $metadata)
     {
-        $metadata->getProperty('id')->setPrimaryKey(true);
+        $metadata->getProperty('id')
+            ->setPrimaryKey(true)
+            ->setNullable(true);
     }
 
     public function __wakeup()

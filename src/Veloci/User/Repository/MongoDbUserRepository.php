@@ -23,7 +23,7 @@ class MongoDbUserRepository extends MongoDbRepository implements UserRepository
     {
         return 'users';
     }
-    
+
     protected function getModelClass():string
     {
         return User::class;
@@ -44,14 +44,14 @@ class MongoDbUserRepository extends MongoDbRepository implements UserRepository
      * @param string $username
      * @return User | null
      */
-    public function getUserByUsername(string $username)
+    public function getUserByUsername(string $username, $hydrate = true)
     {
         $criteria = Criteria::create();
         $expr     = Criteria::expr();
 
         $criteria->where($expr->eq('username', $username));
 
-        $users = $this->getAll($criteria, true);
+        $users = $this->getAll($criteria, $hydrate);
 
         return $users->getNextElement();
     }

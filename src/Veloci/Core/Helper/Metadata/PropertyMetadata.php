@@ -217,7 +217,7 @@ class PropertyMetadata implements Validable
 
     public function validate($value):bool
     {
-        if ($value === null && $this->isNullable()) {
+        if ($value === null && !$this->isNullable()) {
             $this->lastError = 'required';
 
             return false;

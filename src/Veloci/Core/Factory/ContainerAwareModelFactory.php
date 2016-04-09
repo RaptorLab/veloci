@@ -5,6 +5,7 @@ namespace Veloci\Core\Factory;
 use Veloci\Core\Helper\DependencyInjectionContainer;
 use Veloci\Core\Helper\Serializer\ModelHydrator;
 use Veloci\Core\Model\EntityModel;
+use Veloci\Core\Model\Model;
 
 abstract class ContainerAwareModelFactory implements ModelFactory
 {
@@ -46,6 +47,16 @@ abstract class ContainerAwareModelFactory implements ModelFactory
      */
     final public function create(array $data = [], bool $fullHydration = false):EntityModel
     {
-        return $this->hydrator->hydrate($this->className, $data, $fullHydration);
+        $this->preCreate($data);
+
+        $model = $this->hydrator->hydrate($this->className, $data, $fullHydration);
+
+        $this->postCreate($model);
+
+        return $model;
     }
+
+    abstract protected function preCreate(array &$data);
+
+    abstract protected  function postCreate(Model &$model);
 }

@@ -42,7 +42,7 @@ class ModelHydratorDefault implements ModelHydrator
     {
         $objectMetadata = $this->metadataRepository->getMetadata($className);
 
-        $target = $objectMetadata->getReflectionClass()->newInstanceWithoutConstructor();
+        $target = $objectMetadata->getReflectionClass()->newInstance();
 
         foreach ($data as $key => $value) {
 

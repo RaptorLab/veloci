@@ -38,13 +38,13 @@ class UserManagerDefault implements UserManager
      */
     public function signup(User $user)
     {
+        $this->modelValidator->validate($user);
+
         if ($this->userRepository->usernameAlreadyExists($user->getUsername())) {
             throw new ValidationException([
                 'username' => 'duplicated'
             ]);
         }
-
-        $this->modelValidator->validate($user);
 
         $this->userRepository->save($user);
     }

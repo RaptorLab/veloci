@@ -47,13 +47,13 @@ class MongodbResultset implements Resultset
      */
     public function current()
     {
-        $current = (array)$this->cursor->current();
+        $current = $this->cursor->current();
 
         if ($current === null) {
             return null;
         }
 
-        $result = $this->applyFilters($current);
+        $result = $this->applyFilters((array)$current);
 
         return ($this->hydrator === null) ? $result : $this->hydrator->call($this, $result);
     }
@@ -66,7 +66,9 @@ class MongodbResultset implements Resultset
      */
     public function next()
     {
-        $this->cursor->next();
+        if ($this->cursor->valid()) {
+            $this->cursor->next();
+        }
     }
 
     /**
@@ -131,8 +133,10 @@ class MongodbResultset implements Resultset
 
     public function getNextElement()
     {
+        $value = $this->current();
+
         $this->next();
 
-        return $this->current();
+        return $value;
     }
 }

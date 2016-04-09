@@ -49,7 +49,7 @@ class UserDefault extends RichEntityModel implements User
     /**
      * @return string
      */
-    public function getUsername():string
+    public function getUsername()
     {
         return $this->username;
     }
@@ -66,7 +66,7 @@ class UserDefault extends RichEntityModel implements User
     /**
      * @return string
      */
-    public function getPassword():string
+    public function getPassword()
     {
         return $this->password;
     }
