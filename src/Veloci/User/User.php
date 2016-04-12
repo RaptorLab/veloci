@@ -9,7 +9,8 @@ use Veloci\Core\Model\EntityModel;
  *
  * @author christian
  */
-interface User extends EntityModel {
+interface User extends EntityModel
+{
     public function getUsername();
 
     public function getPassword();
@@ -19,4 +20,6 @@ interface User extends EntityModel {
     public function enable();
 
     public function disable();
+
+    public function getRole();
 }

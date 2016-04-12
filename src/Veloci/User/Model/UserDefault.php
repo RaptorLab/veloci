@@ -31,7 +31,7 @@ class UserDefault extends RichEntityModel implements User
     protected $enabled = false;
 
     /**
-     * @var UserRole
+     * @var string
      */
     protected $role;
 
@@ -89,14 +89,14 @@ class UserDefault extends RichEntityModel implements User
     }
 
     /**
-     * @return UserRole
+     * @return string
      */
     public function getRole()
     {
         return $this->role;
     }
 
-    public function setRole(UserRole $role)
+    public function setRole(string $role)
     {
         $this->role = $role;
     }
