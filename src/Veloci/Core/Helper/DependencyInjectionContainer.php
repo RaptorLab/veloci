@@ -32,4 +32,9 @@ interface DependencyInjectionContainer
      * @return bool
      */
     public function contains($alias):bool;
+
+    /**
+     * @return array
+     */
+    public function debug():array;
 }
